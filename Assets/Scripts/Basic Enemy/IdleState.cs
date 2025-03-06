@@ -2,12 +2,16 @@ using UnityEngine;
 
 public class IdleState : EnemyBaseState
 {
-    public IdleState(EnemyContext context, EnemyState key) : base(context, key)
+    public IdleState(EnemyContext context, EnemyState key, float randomMin, float randomMax) : base(context, key)
     {
-
+        _randomMin = randomMin;
+        _randomMax = randomMax;
     }
 
     private readonly int IdleHash = Animator.StringToHash("Idle");
+    private float _randomMin;
+    private float _randomMax;
+    private float _waitTime;
 
     public override void EnterState()
     {
@@ -21,18 +25,30 @@ public class IdleState : EnemyBaseState
         agent.Warp(_context.GetTransform().position);
 
         animator.CrossFade(IdleHash, 0.2f);
+        _waitTime = Random.Range(_randomMin, _randomMax);
+    }
+
+    public override void ExitState()
+    {
+        // Anything we need to reset before leaving the Idle state should be done here
+        // Idle is pretty simple, so nothing yet. 
     }
 
     public override void UpdateState()
     {
         // Here we can put a timer to play a idle/bored animation
-        // Or anything we want to keep track of each frame in the Idle state, which for now isn't anything.
+        // Or anything we want to keep track of each frame in the Idle state
+        _waitTime -= Time.deltaTime;
     }
 
     public override EnemyState GetNextState()
     {
         // Here we define what are the requirements to transition to another state
         // We will use the members of the context to determine this
+        var waypoints = _context.UseWaypoints();
+
+        if(_waitTime < 0 && waypoints) return EnemyState.Waypoint;
+
         return EnemyState.Idle;
     }
 }

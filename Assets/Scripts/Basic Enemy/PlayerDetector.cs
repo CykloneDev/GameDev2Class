@@ -17,6 +17,7 @@ public class PlayerDetector : MonoBehaviour
 
     private void Start()
     {
+        _sphereCollider.enabled = false;
         _playerDetected = false;
         _inRange = false;
         _currentForgetTime = 0;
@@ -69,4 +70,6 @@ public class PlayerDetector : MonoBehaviour
                 _inRange = false;
         }
     }
+
+    public bool PlayerDetected() => _playerDetected;
 }

@@ -6,7 +6,7 @@ public abstract class StateMachine<EState> : MonoBehaviour where EState : Enum
 {
     protected Dictionary<EState, BaseState<EState>> States;
 
-    protected BaseState<EState> _CurrentState;
+    [SerializeField] protected BaseState<EState> _CurrentState;
 
     private bool _isTransitioning = false;
 
@@ -26,12 +26,6 @@ public abstract class StateMachine<EState> : MonoBehaviour where EState : Enum
             TransitionToState(nextStateKey);
     }
 
-    public void ExitState()
-    {
-
-    }
-
-
     public void TransitionToState(EState stateKey)
     {
         _isTransitioning = true;
@@ -41,33 +35,8 @@ public abstract class StateMachine<EState> : MonoBehaviour where EState : Enum
         _isTransitioning = false;
     }
 
-    private void OnTriggerEnter(Collider other)
+    public virtual void ExitState()
     {
-        _CurrentState.OnTriggerEnter(other);
-    }
 
-    private void OnTriggerStay(Collider other)
-    {
-        _CurrentState.OnTriggerStay(other);
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        _CurrentState.OnTriggerExit(other);
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        _CurrentState.OnCollisionEnter(collision);
-    }
-
-    private void OnCollisionStay(Collision collision)
-    {
-        _CurrentState.OnCollisionStay(collision);
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
-        _CurrentState.OnCollisionExit(collision);
     }
 }
