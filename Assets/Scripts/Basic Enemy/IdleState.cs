@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class IdleState : EnemyBaseState
 {
-    public IdleState(EnemyContext context, EnemyState key, float randomMin, float randomMax) : base(context, key)
+    public IdleState(EnemyContext context, EnemyMachine.EnemyState key, float randomMin, float randomMax) : base(context, key)
     {
         _randomMin = randomMin;
         _randomMax = randomMax;
@@ -41,14 +41,14 @@ public class IdleState : EnemyBaseState
         _waitTime -= Time.deltaTime;
     }
 
-    public override EnemyState GetNextState()
+    public override EnemyMachine.EnemyState GetNextState()
     {
         // Here we define what are the requirements to transition to another state
         // We will use the members of the context to determine this
         var waypoints = _context.UseWaypoints();
 
-        if(_waitTime < 0 && waypoints) return EnemyState.Waypoint;
+        if(_waitTime < 0 && waypoints) return EnemyMachine.EnemyState.Waypoint;
 
-        return EnemyState.Idle;
+        return EnemyMachine.EnemyState.Idle;
     }
 }

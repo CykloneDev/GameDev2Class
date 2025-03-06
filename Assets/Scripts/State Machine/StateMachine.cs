@@ -6,37 +6,35 @@ public abstract class StateMachine<EState> : MonoBehaviour where EState : Enum
 {
     protected Dictionary<EState, BaseState<EState>> States;
 
-    [SerializeField] protected BaseState<EState> _CurrentState;
+    public BaseState<EState> CurrentState { get; protected set; }
 
     private bool _isTransitioning = false;
 
     void Start()
     {
-        _CurrentState.EnterState();
+        CurrentState.EnterState();
     }
 
 
-    private void Update()
+    public virtual void Update()
     {
-        EState nextStateKey = _CurrentState.GetNextState();
+        EState nextStateKey = CurrentState.GetNextState();
+        Debug.Log("Next State: " +  nextStateKey.ToString());
+        Debug.Log("Current State: " + CurrentState.ToString());
 
-        if (nextStateKey.Equals(_CurrentState.StateKey))
-            _CurrentState.UpdateState();
-        else if(!_isTransitioning)
+        if (nextStateKey.Equals(CurrentState.StateKey))
+            CurrentState.UpdateState();
+
+        else if(!nextStateKey.Equals(CurrentState.StateKey) && !_isTransitioning)
             TransitionToState(nextStateKey);
     }
 
-    public void TransitionToState(EState stateKey)
+    private void TransitionToState(EState stateKey)
     {
         _isTransitioning = true;
-        _CurrentState.ExitState();
-        _CurrentState = States[stateKey];
-        _CurrentState.EnterState();
+        CurrentState.ExitState();
+        CurrentState = States[stateKey];
+        CurrentState.EnterState();
         _isTransitioning = false;
-    }
-
-    public virtual void ExitState()
-    {
-
     }
 }

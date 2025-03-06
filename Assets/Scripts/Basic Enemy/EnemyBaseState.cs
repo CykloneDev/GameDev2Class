@@ -1,14 +1,14 @@
 using UnityEngine;
 
-public abstract class EnemyBaseState : BaseState<EnemyState>
+public abstract class EnemyBaseState : BaseState<EnemyMachine.EnemyState>
 {
-    public EnemyBaseState(EnemyContext context, EnemyState key) : base(key)
+    public EnemyBaseState(EnemyContext context, EnemyMachine.EnemyState key) : base(key)
     {
         _context = context;
         StateKey = key;
     }
-
-    public EnemyState StateKey { get; private set; }
+        
+    [SerializeField] protected EnemyMachine.EnemyState StateKey { get; private set; }
     protected EnemyContext _context;
 
     // EnterState
@@ -21,7 +21,7 @@ public abstract class EnemyBaseState : BaseState<EnemyState>
     public override void ExitState() { }
 
     // GetNextState
-    public override EnemyState GetNextState() { return EnemyState.Idle; }
+    public override EnemyMachine.EnemyState GetNextState() { return EnemyMachine.EnemyState.Idle; }
 
     // OnTriggerEnter
     public override void OnTriggerEnter(Collider collider) { }

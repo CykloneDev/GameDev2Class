@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class WaypointState : EnemyBaseState
 {
-    public WaypointState(EnemyContext context, EnemyState key, Transform[] waypoints) : base(context, key)
+    public WaypointState(EnemyContext context, EnemyMachine.EnemyState key, Transform[] waypoints) : base(context, key)
     {
         _index = 0;
         _waypoints = waypoints;
@@ -26,23 +26,27 @@ public class WaypointState : EnemyBaseState
 
         _waypointReached = false;
         animator.CrossFade(WalkHash, 0.2f);
+        agent.isStopped = false;
+        agent.updatePosition = true;
+        agent.updateRotation = true;
         agent.SetDestination(_waypoints[_index].position);
+        ++_index;
     }
 
     public override void UpdateState()
     {
         var agent = _context.GetAgent();
 
-        if(agent.stoppingDistance <= agent.remainingDistance)
+        if(agent.remainingDistance <= agent.stoppingDistance)
         {
             _waypointReached = true;
         }
     }
 
-    public override EnemyState GetNextState()
+    public override EnemyMachine.EnemyState GetNextState()
     {
-        if (_waypointReached) return EnemyState.Idle;
+        if (_waypointReached) return EnemyMachine.EnemyState.Idle;
 
-        return EnemyState.Waypoint;
+        return EnemyMachine.EnemyState.Waypoint;
     }
 }
