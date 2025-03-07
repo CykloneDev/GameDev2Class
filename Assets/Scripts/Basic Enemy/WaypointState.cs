@@ -52,11 +52,12 @@ public class WaypointState : EnemyBaseState
         var playerDetected = _context.GetPlayerDetector().PlayerDetected();
 
         var chase = _context.UseChase();
+        var flee = _context.UseFlee();
 
         if (playerDetected)
         {
             if (chase) return EnemyMachine.EnemyState.Chase;
-            // flee
+            if (flee) return EnemyMachine.EnemyState.Flee;
         }
 
         if (_waypointReached) return EnemyMachine.EnemyState.RandomIdle;

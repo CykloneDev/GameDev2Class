@@ -23,11 +23,12 @@ public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>
     private PlayerDetector _playerDetector;
     [SerializeField] private float _minRandomWait, _maxRandomWait;
     [SerializeField] private float _walkSpeed;
-    [SerializeField] private float _chaseSpeed;
+    [SerializeField] private float _runSpeed;
     [SerializeField] private float _chaseStopRadius;
     [SerializeField] private float _chaseStartRadius;
     [SerializeField] private float _chaseRefreshTime;
     [SerializeField] private float _focusIdleRotationSpeed;
+    [SerializeField] private float _fleeRadius;
 
     [SerializeField] private List<EnemyState> StatesUsed;   
     [SerializeField] private Transform[] _waypoints;
@@ -80,9 +81,19 @@ public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>
             States.Add(EnemyState.FocusIdle, new FocusIdle(_context, EnemyState.FocusIdle, _chaseStartRadius,
                 _focusIdleRotationSpeed));
 
-            States.Add(EnemyState.Chase, new ChaseState(_context, EnemyState.Chase, _chaseSpeed,
+            States.Add(EnemyState.Chase, new ChaseState(_context, EnemyState.Chase, _runSpeed,
                 _chaseStopRadius, _chaseRefreshTime));
             _context.SetUseChase(true);
+        }
+
+        if(StatesUsed.Contains(EnemyState.Flee))
+        {
+            // Must also use FocusIdle
+            States.Add(EnemyState.FocusIdle, new FocusIdle(_context, EnemyState.FocusIdle, _chaseStartRadius,
+                _focusIdleRotationSpeed));
+
+            States.Add(EnemyState.Flee, new FleeState(_context, EnemyState.Flee, _runSpeed, _fleeRadius));
+            _context.SetUseFlee(true);
         }
 
         CurrentState = States[EnemyState.RandomIdle];

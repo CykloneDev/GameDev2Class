@@ -19,8 +19,6 @@ public abstract class StateMachine<EState> : MonoBehaviour where EState : Enum
     public virtual void Update()
     {
         EState nextStateKey = CurrentState.GetNextState();
-        Debug.Log("Next State: " +  nextStateKey.ToString());
-        Debug.Log("Current State: " + CurrentState.ToString());
 
         if (nextStateKey.Equals(CurrentState.StateKey))
             CurrentState.UpdateState();

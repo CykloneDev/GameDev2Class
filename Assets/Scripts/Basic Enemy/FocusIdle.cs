@@ -45,10 +45,20 @@ public class FocusIdle : EnemyBaseState
     {
         var distance = Vector3.Distance(_context.GetTransform().position, _playerTransform.position);
         var playerDetected = _context.GetPlayerDetector().PlayerDetected();
+        var chase = _context.UseChase();
+        var flee = _context.UseFlee();
 
         if (!playerDetected) return EnemyMachine.EnemyState.RandomIdle;
 
-        if (distance >= _radius) return EnemyMachine.EnemyState.Chase;
+        if(chase)
+        {
+            if (distance >= _radius) return EnemyMachine.EnemyState.Chase;
+        }
+
+        if(flee)
+        {
+            if (distance <= _radius) return EnemyMachine.EnemyState.Flee;
+        }
 
         return EnemyMachine.EnemyState.FocusIdle;
     }
