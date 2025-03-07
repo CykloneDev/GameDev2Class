@@ -8,7 +8,8 @@ public abstract class EnemyBaseState : BaseState<EnemyMachine.EnemyState>
         StateKey = key;
     }
         
-    [SerializeField] protected EnemyMachine.EnemyState StateKey { get; private set; }
+    protected EnemyMachine.EnemyState StateKey { get; private set; }
+
     protected EnemyContext _context;
 
     // EnterState
@@ -21,7 +22,7 @@ public abstract class EnemyBaseState : BaseState<EnemyMachine.EnemyState>
     public override void ExitState() { }
 
     // GetNextState
-    public override EnemyMachine.EnemyState GetNextState() { return EnemyMachine.EnemyState.Idle; }
+    public override EnemyMachine.EnemyState GetNextState() { return EnemyMachine.EnemyState.RandomIdle; }
 
     // OnTriggerEnter
     public override void OnTriggerEnter(Collider collider) { }

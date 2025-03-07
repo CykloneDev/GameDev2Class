@@ -20,6 +20,7 @@ public class EnemyContext
     [SerializeField] private Animator _animator;
     [SerializeField] private PlayerDetector _playerDetector;
     [SerializeField] private bool _useWaypoints = false;
+    [SerializeField] private bool _useChase = false;
 
     public Transform GetTransform() => _transform;
     public NavMeshAgent GetAgent() => _agent;
@@ -27,5 +28,7 @@ public class EnemyContext
     public Animator GetAnimator() => _animator;
     public PlayerDetector GetPlayerDetector() => _playerDetector;
     public bool UseWaypoints() => _useWaypoints;
-    public void SetUseWaypoints(bool useWaypoints) { _useWaypoints = useWaypoints;}
+    public void SetUseWaypoints(bool useWaypoints) { _useWaypoints = useWaypoints; }
+    public bool UseChase() => _useChase;
+    public void SetUseChase(bool useChase) { _useChase = useChase; }
 }

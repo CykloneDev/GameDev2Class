@@ -46,9 +46,17 @@ public class IdleState : EnemyBaseState
         // Here we define what are the requirements to transition to another state
         // We will use the members of the context to determine this
         var waypoints = _context.UseWaypoints();
+        var playerDetected = _context.GetPlayerDetector().PlayerDetected();
+        var chase = _context.UseChase();
 
         if(_waitTime < 0 && waypoints) return EnemyMachine.EnemyState.Waypoint;
 
-        return EnemyMachine.EnemyState.Idle;
+        if(playerDetected)
+        {
+            if (chase) return EnemyMachine.EnemyState.Chase;
+            // flee
+        }
+
+        return EnemyMachine.EnemyState.RandomIdle;
     }
 }

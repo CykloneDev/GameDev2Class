@@ -8,7 +8,8 @@ public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>
 {
     public enum EnemyState
     {
-        Idle,
+        RandomIdle,
+        FocusIdle,
         Waypoint,
         Chase,
         Flee,
@@ -21,6 +22,12 @@ public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>
     private Animator _animator;
     private PlayerDetector _playerDetector;
     [SerializeField] private float _minRandomWait, _maxRandomWait;
+    [SerializeField] private float _walkSpeed;
+    [SerializeField] private float _chaseSpeed;
+    [SerializeField] private float _chaseStopRadius;
+    [SerializeField] private float _chaseStartRadius;
+    [SerializeField] private float _chaseRefreshTime;
+    [SerializeField] private float _focusIdleRotationSpeed;
 
     [SerializeField] private List<EnemyState> StatesUsed;   
     [SerializeField] private Transform[] _waypoints;
@@ -56,7 +63,7 @@ public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>
         States = new Dictionary<EnemyState, BaseState<EnemyState>>();
 
         Debug.Log("Added Idle State to " + gameObject.name);
-        States.Add(EnemyState.Idle, new IdleState(_context, EnemyState.Idle,
+        States.Add(EnemyState.RandomIdle, new IdleState(_context, EnemyState.RandomIdle,
             _minRandomWait, _maxRandomWait));
 
         if (StatesUsed.Contains(EnemyState.Waypoint))
@@ -64,10 +71,21 @@ public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>
             Debug.Log("Added Waypoint State to " + gameObject.name);
             _context.SetUseWaypoints(true);
             States.Add(EnemyState.Waypoint, new WaypointState(_context, EnemyMachine.EnemyState.Waypoint, 
-                _waypoints)); 
+                _waypoints, _walkSpeed)); 
         }
 
-        CurrentState = States[EnemyState.Idle];
+        if(StatesUsed.Contains(EnemyState.Chase))
+        {
+            // Must also use FocusIdle
+            States.Add(EnemyState.FocusIdle, new FocusIdle(_context, EnemyState.FocusIdle, _chaseStartRadius,
+                _focusIdleRotationSpeed));
+
+            States.Add(EnemyState.Chase, new ChaseState(_context, EnemyState.Chase, _chaseSpeed,
+                _chaseStopRadius, _chaseRefreshTime));
+            _context.SetUseChase(true);
+        }
+
+        CurrentState = States[EnemyState.RandomIdle];
     }
 
 

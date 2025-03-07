@@ -119,6 +119,51 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &405218817
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 405218819}
+  - component: {fileID: 405218818}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &405218818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 405218817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 595abd4ed119f254fa7f92144aa3d368, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerTransform: {fileID: 0}
+--- !u!4 &405218819
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 405218817}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -8.182482, y: 16.167192, z: 10.981626}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &504009559
 GameObject:
   m_ObjectHideFlags: 0
@@ -652,7 +697,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 2
 --- !u!136 &1714266137
 CapsuleCollider:
@@ -2610,9 +2655,15 @@ MonoBehaviour:
     _animator: {fileID: 0}
     _playerDetector: {fileID: 0}
     _useWaypoints: 0
-  _minRandomWait: 0.5
-  _maxRandomWait: 1
-  StatesUsed: 0000000001000000
+    _useChase: 0
+  _minRandomWait: 3
+  _maxRandomWait: 5
+  _walkSpeed: 3.5
+  _chaseSpeed: 7
+  _chaseStopRadius: 5
+  _chaseStartRadius: 3
+  _chaseRefreshTime: 0.25
+  StatesUsed: 000000000200000003000000
   _waypoints:
   - {fileID: 1453117818}
   - {fileID: 1580557641}
@@ -2688,7 +2739,7 @@ NavMeshAgent:
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
-  m_AngularSpeed: 120
+  m_AngularSpeed: 360
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
@@ -3753,3 +3804,4 @@ SceneRoots:
   - {fileID: 921223389}
   - {fileID: 504009560}
   - {fileID: 730118818411851226}
+  - {fileID: 405218819}
