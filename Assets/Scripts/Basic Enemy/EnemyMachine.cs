@@ -35,6 +35,7 @@ public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>
     [SerializeField] private Transform[] _waypoints;
     [SerializeField] private GameObject _bulletPrefab;
     [SerializeField] private Transform _shotPoint;
+    [SerializeField] private float _attackRange;
     [SerializeField] private float _shotFrequency;
     [SerializeField] private int _shotSpeed;
     [SerializeField] private int _shotCount;
@@ -90,7 +91,7 @@ public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>
             // Must also use FocusIdle
             if(!States.ContainsKey(EnemyState.FocusIdle))
                 States.Add(EnemyState.FocusIdle, new FocusIdle(_context, EnemyState.FocusIdle, _chaseStartRadius,
-                _focusIdleRotationSpeed));
+                _focusIdleRotationSpeed, _attackRange));
 
             States.Add(EnemyState.Chase, new ChaseState(_context, EnemyState.Chase, _runSpeed,
                 _chaseStopRadius, _chaseRefreshTime));
@@ -102,7 +103,7 @@ public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>
             // Must also use FocusIdle
             if (!States.ContainsKey(EnemyState.FocusIdle))
                 States.Add(EnemyState.FocusIdle, new FocusIdle(_context, EnemyState.FocusIdle, _chaseStartRadius,
-                _focusIdleRotationSpeed));
+                _focusIdleRotationSpeed, _attackRange));
 
             States.Add(EnemyState.Flee, new FleeState(_context, EnemyState.Flee, _runSpeed, _fleeRadius));
             _context.SetUseFlee(true);
@@ -113,7 +114,7 @@ public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>
             // Must also use FocusIdle
             if (!States.ContainsKey(EnemyState.FocusIdle))
                 States.Add(EnemyState.FocusIdle, new FocusIdle(_context, EnemyState.FocusIdle, _chaseStartRadius,
-                _focusIdleRotationSpeed));
+                _focusIdleRotationSpeed, _attackRange));
 
             States.Add(EnemyState.Attack, new AttackState(_context, EnemyState.Attack, _bulletPrefab, _shotFrequency, 
                 _shotCount, _shotRotationSpeed, _damageLayer));

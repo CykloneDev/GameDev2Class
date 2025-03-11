@@ -3,16 +3,18 @@ using UnityEngine;
 public class FocusIdle : EnemyBaseState
 {
     public FocusIdle(EnemyContext context, EnemyMachine.EnemyState key, float radius,
-        float rotationSpeed) : base(context, key)
+        float rotationSpeed, float attackRange) : base(context, key)
     {
         _radius = radius;
         _rotationSpeed = rotationSpeed;
+        _attackRange = attackRange;
     }
 
     private readonly int IdleHash = Animator.StringToHash("Idle");
     private Transform _playerTransform;
     private float _radius;
     private float _rotationSpeed;
+    private float _attackRange;
 
     public override void EnterState()
     {
@@ -63,7 +65,7 @@ public class FocusIdle : EnemyBaseState
 
         if (attack)
         {
-            if (distance <= _radius) return EnemyMachine.EnemyState.Attack;
+            if (distance <= _attackRange) return EnemyMachine.EnemyState.Attack;
         }
 
         return EnemyMachine.EnemyState.FocusIdle;
