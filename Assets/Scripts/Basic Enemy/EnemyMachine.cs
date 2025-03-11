@@ -13,7 +13,8 @@ public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>
         Waypoint,
         Chase,
         Flee,
-        Cover
+        Cover,
+        Attack
     }
 
     [SerializeField] private EnemyContext _context;
@@ -32,6 +33,14 @@ public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>
 
     [SerializeField] private List<EnemyState> StatesUsed;   
     [SerializeField] private Transform[] _waypoints;
+    [SerializeField] private GameObject _bulletPrefab;
+    [SerializeField] private Transform _shotPoint;
+    [SerializeField] private float _shotFrequency;
+    [SerializeField] private int _shotSpeed;
+    [SerializeField] private int _shotCount;
+    [SerializeField] private int _shotDamageAmount;
+    [SerializeField] LayerMask _damageLayer;
+    private float _currentShotTime;
 
     public EnemyState currentState;
 
@@ -78,7 +87,8 @@ public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>
         if(StatesUsed.Contains(EnemyState.Chase))
         {
             // Must also use FocusIdle
-            States.Add(EnemyState.FocusIdle, new FocusIdle(_context, EnemyState.FocusIdle, _chaseStartRadius,
+            if(!States.ContainsKey(EnemyState.FocusIdle))
+                States.Add(EnemyState.FocusIdle, new FocusIdle(_context, EnemyState.FocusIdle, _chaseStartRadius,
                 _focusIdleRotationSpeed));
 
             States.Add(EnemyState.Chase, new ChaseState(_context, EnemyState.Chase, _runSpeed,
@@ -89,11 +99,23 @@ public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>
         if(StatesUsed.Contains(EnemyState.Flee))
         {
             // Must also use FocusIdle
-            States.Add(EnemyState.FocusIdle, new FocusIdle(_context, EnemyState.FocusIdle, _chaseStartRadius,
+            if (!States.ContainsKey(EnemyState.FocusIdle))
+                States.Add(EnemyState.FocusIdle, new FocusIdle(_context, EnemyState.FocusIdle, _chaseStartRadius,
                 _focusIdleRotationSpeed));
 
             States.Add(EnemyState.Flee, new FleeState(_context, EnemyState.Flee, _runSpeed, _fleeRadius));
             _context.SetUseFlee(true);
+        }
+
+        if(StatesUsed.Contains(EnemyState.Attack))
+        {
+            // Must also use FocusIdle
+            if (!States.ContainsKey(EnemyState.FocusIdle))
+                States.Add(EnemyState.FocusIdle, new FocusIdle(_context, EnemyState.FocusIdle, _chaseStartRadius,
+                _focusIdleRotationSpeed));
+
+            States.Add(EnemyState.Attack, new AttackState(_context, EnemyState.Attack, _bulletPrefab, _shotFrequency, _shotSpeed,
+                _shotCount, _shotDamageAmount, _damageLayer));
         }
 
         CurrentState = States[EnemyState.RandomIdle];
