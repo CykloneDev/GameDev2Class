@@ -7,7 +7,7 @@ public class Damage : MonoBehaviour
     [SerializeField] Rigidbody _rb;
     [SerializeField] int _amount;
     [SerializeField] int _speed;
-    [SerializeField] int _destroyTime;
+    [SerializeField] float _destroyTime;
     [SerializeField] float _damageFrequency;
 
     bool _isDamaging;
@@ -19,11 +19,7 @@ public class Damage : MonoBehaviour
 
     private void Start()
     {
-        if(_type == DamageType.Moving)
-        {
-            _rb.linearVelocity = transform.forward * _speed;
-            Destroy(gameObject, _destroyTime);
-        }
+        
     }
 
     private void OnTriggerEnter(Collider other)
@@ -63,5 +59,13 @@ public class Damage : MonoBehaviour
         _isDamaging = false;
     }
 
-
+    public void InitBullet(int damageAmount, int speed, float destroyTime)
+    {
+        _amount = damageAmount;
+        _speed = speed;
+        _destroyTime = destroyTime;
+        _type = DamageType.Moving;
+        _rb.linearVelocity = transform.forward * _speed;
+        Destroy(gameObject, _destroyTime);
+    }
 }

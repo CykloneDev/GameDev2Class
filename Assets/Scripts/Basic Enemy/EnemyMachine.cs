@@ -39,7 +39,8 @@ public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>
     [SerializeField] private int _shotSpeed;
     [SerializeField] private int _shotCount;
     [SerializeField] private int _shotDamageAmount;
-    [SerializeField] LayerMask _damageLayer;
+    [SerializeField] private float _shotRotationSpeed;
+    [SerializeField] string _damageLayer;
     private float _currentShotTime;
 
     public EnemyState currentState;
@@ -55,7 +56,7 @@ public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>
     #region Unity Methods
     void Start()
     {
-        _context = new EnemyContext(transform, _agent, _animator, _rb, _playerDetector);
+        _context = new EnemyContext(this, transform, _agent, _animator, _rb, _playerDetector);
         InitializeStates();
     }
 
@@ -114,13 +115,21 @@ public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>
                 States.Add(EnemyState.FocusIdle, new FocusIdle(_context, EnemyState.FocusIdle, _chaseStartRadius,
                 _focusIdleRotationSpeed));
 
-            States.Add(EnemyState.Attack, new AttackState(_context, EnemyState.Attack, _bulletPrefab, _shotFrequency, _shotSpeed,
-                _shotCount, _shotDamageAmount, _damageLayer));
+            States.Add(EnemyState.Attack, new AttackState(_context, EnemyState.Attack, _bulletPrefab, _shotFrequency, 
+                _shotCount, _shotRotationSpeed, _damageLayer));
+
+            _context.SetUseAttack(true);
         }
 
         CurrentState = States[EnemyState.RandomIdle];
     }
 
+    public void Shoot()
+    {
+        var bullet = Instantiate(_bulletPrefab, _shotPoint.position, _context.GetTransform().rotation);
+        bullet.layer = LayerMask.NameToLayer(_damageLayer);
+        bullet.GetComponent<Damage>().InitBullet(_shotDamageAmount, _shotSpeed, 3f);
+    }
 
     #endregion
 }
