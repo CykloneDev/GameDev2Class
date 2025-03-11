@@ -47,6 +47,7 @@ public class FocusIdle : EnemyBaseState
         var playerDetected = _context.GetPlayerDetector().PlayerDetected();
         var chase = _context.UseChase();
         var flee = _context.UseFlee();
+        var attack = _context.UseAttack();
 
         if (!playerDetected) return EnemyMachine.EnemyState.RandomIdle;
 
@@ -58,6 +59,11 @@ public class FocusIdle : EnemyBaseState
         if(flee)
         {
             if (distance <= _radius) return EnemyMachine.EnemyState.Flee;
+        }
+
+        if (attack)
+        {
+            if (distance <= _radius) return EnemyMachine.EnemyState.Attack;
         }
 
         return EnemyMachine.EnemyState.FocusIdle;

@@ -4,9 +4,10 @@ using UnityEngine.AI;
 [System.Serializable]
 public class EnemyContext
 {
-    public EnemyContext(Transform transform, NavMeshAgent agent, Animator animator, Rigidbody rb, 
+    public EnemyContext(EnemyMachine machine, Transform transform, NavMeshAgent agent, Animator animator, Rigidbody rb, 
         PlayerDetector playerDetector)
     {
+        _enemyMachine = machine;
         _transform = transform;
         _agent = agent;
         _rb = rb;   
@@ -14,6 +15,7 @@ public class EnemyContext
         _playerDetector = playerDetector;
     }
 
+    [SerializeField] private EnemyMachine _enemyMachine;
     [SerializeField] private Transform _transform;
     [SerializeField] private NavMeshAgent _agent;
     [SerializeField] private Rigidbody _rb;
@@ -22,7 +24,9 @@ public class EnemyContext
     [SerializeField] private bool _useWaypoints = false;
     [SerializeField] private bool _useChase = false;
     [SerializeField] private bool _useFlee = false;
+    [SerializeField] private bool _useAttack = false;
 
+    public EnemyMachine GetMachine() => _enemyMachine;
     public Transform GetTransform() => _transform;
     public NavMeshAgent GetAgent() => _agent;
     public Rigidbody GetRigidBody() => _rb;
@@ -34,4 +38,6 @@ public class EnemyContext
     public void SetUseChase(bool useChase) { _useChase = useChase; }
     public bool UseFlee() => _useFlee;
     public void SetUseFlee(bool useFlee) { _useFlee = useFlee; }
+    public bool UseAttack() => _useAttack;
+    public void SetUseAttack(bool useAttack) { _useAttack = useAttack; }
 }
