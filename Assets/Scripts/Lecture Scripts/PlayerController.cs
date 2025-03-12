@@ -12,6 +12,10 @@ public class PlayerController : MonoBehaviour, IDamage
     [SerializeField, Range(0, 100)] private int _jumpSpeed;
     [SerializeField, Range(0, 100)] private int _jumpMax;
     [SerializeField, Range(0, 100)] private int _gravity;
+    [SerializeField] private bool _useProjectile;
+    [SerializeField] private Transform _shotPoint;
+    [SerializeField] private GameObject _bulletPrefab;
+    [SerializeField] private int _projectileSpeed;
     [SerializeField] private float _shootRate;
     [SerializeField] private float _shootDistance;
     [SerializeField] private int _shootDamage;
@@ -92,18 +96,28 @@ public class PlayerController : MonoBehaviour, IDamage
     void Shoot()
     {
         _shootTimer = 0;
-        RaycastHit hit;
-
-        if(Physics.Raycast(_camera.transform.position, _camera.transform.forward, out hit,
-            _shootDistance, _damageLayer))
+        if(_useProjectile)
         {
-            IDamage damage; 
-            hit.collider.TryGetComponent<IDamage>(out damage);
-            if(damage != null)
-            {
-                damage.TakeDamage(_shootDamage);
-            }
+            var bullet = Instantiate(_bulletPrefab, _shotPoint.position, transform.rotation);
+            bullet.layer = LayerMask.NameToLayer("Player Bullet");
+            bullet.GetComponent<Damage>().InitBullet(_shootDamage, _projectileSpeed, 3f);
         }
+
+        else
+        {
+            RaycastHit hit;
+
+            if (Physics.Raycast(_camera.transform.position, _camera.transform.forward, out hit,
+                _shootDistance, _damageLayer))
+            {
+                IDamage damage;
+                hit.collider.TryGetComponent<IDamage>(out damage);
+                if (damage != null)
+                {
+                    damage.TakeDamage(_shootDamage);
+                }
+            }
+        }        
     }
 
     public void TakeDamage(int amount)
