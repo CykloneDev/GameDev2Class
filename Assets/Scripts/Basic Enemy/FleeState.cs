@@ -45,6 +45,13 @@ public class FleeState : EnemyBaseState
 
     public override EnemyMachine.EnemyState GetNextState()
     {
+        var damage = _context.GetDamage();
+        var dead = _context.GetDead();
+
+        if (dead) return EnemyMachine.EnemyState.Death;
+
+        if (damage) return EnemyMachine.EnemyState.Damage;
+
         if (_arrived) return EnemyMachine.EnemyState.FocusIdle;
 
         return EnemyMachine.EnemyState.Flee;

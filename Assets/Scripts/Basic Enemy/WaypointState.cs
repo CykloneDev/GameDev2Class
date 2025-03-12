@@ -53,6 +53,9 @@ public class WaypointState : EnemyBaseState
 
         var chase = _context.UseChase();
         var flee = _context.UseFlee();
+        var dead = _context.GetDead();
+
+        if (dead) return EnemyMachine.EnemyState.Death;
 
         if (playerDetected)
         {
