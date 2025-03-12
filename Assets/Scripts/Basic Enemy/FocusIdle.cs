@@ -50,6 +50,12 @@ public class FocusIdle : EnemyBaseState
         var chase = _context.UseChase();
         var flee = _context.UseFlee();
         var attack = _context.UseAttack();
+        var damage = _context.GetDamage();
+        var dead = _context.GetDead();
+
+        if (dead) return EnemyMachine.EnemyState.Death;
+
+        if (damage) return EnemyMachine.EnemyState.Damage;
 
         if (!playerDetected) return EnemyMachine.EnemyState.RandomIdle;
 

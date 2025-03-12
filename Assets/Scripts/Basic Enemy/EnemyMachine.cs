@@ -1,10 +1,11 @@
 using UnityEngine;
 using UnityEngine.AI;
 using System.Collections.Generic;
+using System.Collections;
 
 [RequireComponent(typeof(NavMeshAgent))]
 [RequireComponent (typeof(Rigidbody))]
-public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>
+public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>, IDamage
 {
     public enum EnemyState
     {
@@ -14,7 +15,9 @@ public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>
         Chase,
         Flee,
         Cover,
-        Attack
+        Attack,
+        Damage,
+        Death
     }
 
     [SerializeField] private EnemyContext _context;
@@ -22,6 +25,10 @@ public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>
     private NavMeshAgent _agent;
     private Animator _animator;
     private PlayerDetector _playerDetector;
+    [SerializeField] private Renderer _model;
+    [SerializeField] private int _currentHP;
+    [SerializeField] private int _maxHP;
+    [SerializeField] private bool _dead;
     [SerializeField] private float _minRandomWait, _maxRandomWait;
     [SerializeField] private float _walkSpeed;
     [SerializeField] private float _runSpeed;
@@ -59,6 +66,10 @@ public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>
     {
         _context = new EnemyContext(this, transform, _agent, _animator, _rb, _playerDetector);
         InitializeStates();
+
+        _currentHP = _maxHP;
+        _dead = false;
+        GameManager.instance.UpdateGameGoal(1);
     }
 
     public override void Update()
@@ -77,6 +88,13 @@ public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>
         Debug.Log("Added Idle State to " + gameObject.name);
         States.Add(EnemyState.RandomIdle, new IdleState(_context, EnemyState.RandomIdle,
             _minRandomWait, _maxRandomWait));
+
+        Debug.Log("Added Damage State to " + gameObject.name);
+        States.Add(EnemyState.Damage, new DamageState(_context, EnemyState.Damage, .5f));
+
+
+        Debug.Log("Added Death State to " + gameObject.name);
+        States.Add(EnemyState.Death, new DeathState(_context, EnemyState.Death));
 
         if (StatesUsed.Contains(EnemyState.Waypoint))
         {
@@ -132,5 +150,30 @@ public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>
         bullet.GetComponent<Damage>().InitBullet(_shotDamageAmount, _shotSpeed, 3f);
     }
 
+    public void TakeDamage(int damage)
+    {
+        if(_dead) return;
+
+        _currentHP -= damage;
+
+        if(_currentHP <= 0)
+        {
+            // Die
+            _context.SetDead(true);
+            _dead = true;
+            GameManager.instance.UpdateGameGoal(-1);
+            return;
+        }
+        _context.SetDamage(true);
+        StartCoroutine(FlashRed());
+    }
+    IEnumerator FlashRed()
+    {
+        var color = _model.material.color;
+        _model.material.color = Color.red;
+        yield return new WaitForSeconds(0.1f);
+        _model.material.color = color;
+        yield return null;
+    }
     #endregion
 }

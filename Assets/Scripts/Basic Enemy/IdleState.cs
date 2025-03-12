@@ -49,8 +49,14 @@ public class IdleState : EnemyBaseState
         var playerDetected = _context.GetPlayerDetector().PlayerDetected();
         var chase = _context.UseChase();
         var flee = _context.UseFlee();
+        var damage = _context.GetDamage();
+        var dead = _context.GetDead();
 
-        if(_waitTime < 0 && waypoints) return EnemyMachine.EnemyState.Waypoint;
+        if (dead) return EnemyMachine.EnemyState.Death;
+
+        if (damage) return EnemyMachine.EnemyState.Damage;
+
+        if (_waitTime < 0 && waypoints) return EnemyMachine.EnemyState.Waypoint;
 
         if(playerDetected)
         {

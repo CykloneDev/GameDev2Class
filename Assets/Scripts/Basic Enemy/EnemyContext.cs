@@ -25,6 +25,8 @@ public class EnemyContext
     [SerializeField] private bool _useChase = false;
     [SerializeField] private bool _useFlee = false;
     [SerializeField] private bool _useAttack = false;
+    [SerializeField] private bool _damage;
+    [SerializeField] private bool _dead;
 
     public EnemyMachine GetMachine() => _enemyMachine;
     public Transform GetTransform() => _transform;
@@ -40,4 +42,8 @@ public class EnemyContext
     public void SetUseFlee(bool useFlee) { _useFlee = useFlee; }
     public bool UseAttack() => _useAttack;
     public void SetUseAttack(bool useAttack) { _useAttack = useAttack; }
+    public bool GetDamage() => _damage;
+    public void SetDamage(bool damage) { _damage = damage; }    
+    public bool GetDead() => _dead;
+    public void SetDead(bool dead) { _dead = dead; }
 }
