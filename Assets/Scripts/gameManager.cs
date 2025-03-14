@@ -128,7 +128,7 @@ public class GameManager : MonoBehaviour
                     Debug.Log("Increasejumps has been added to the player");
                 break;
                 case powerUps.PowerUpType.gravity:
-                player.Gravity = player.maxGravity; //Not tested but should work by setting the current player gravity equal to the maxGravity
+                player.Gravity = player.maxGravity; 
                     Debug.Log("Gravity has been changed");
                 break;
                 case powerUps.PowerUpType.increasemaxhealth:
