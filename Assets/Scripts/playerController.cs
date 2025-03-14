@@ -65,6 +65,7 @@ public class playerController : MonoBehaviour, IDamage
     [SerializeField] private int _shootDamage;
     [SerializeField] private LayerMask _damageLayer;
     private float _shootTimer;
+    Ray _projectileRay;
     //Terrence Edit
 
     //Getters and Setters to modify values without directly accessing the attributes
@@ -106,8 +107,11 @@ public class playerController : MonoBehaviour, IDamage
 
     // Update is called once per frame
     void Update()
-    { 
+    {
         // Terrence Edit
+        _projectileRay.origin = _shotPoint.position;
+        _projectileRay.direction = _camera.transform.forward;
+        _shotPoint.LookAt(_projectileRay.GetPoint(100));
         _shootTimer += Time.deltaTime;
         Debug.DrawRay(_camera.transform.position, _camera.transform.forward * _shootDistance);
 
@@ -250,7 +254,7 @@ public class playerController : MonoBehaviour, IDamage
         _shootTimer = 0;
         if (_useProjectile)
         {
-            var bullet = Instantiate(_bulletPrefab, _shotPoint.position, transform.rotation);
+            var bullet = Instantiate(_bulletPrefab, _shotPoint.position, _shotPoint.rotation);
             bullet.layer = LayerMask.NameToLayer("Player Bullet");
             bullet.GetComponent<Damage>().InitBullet(_shootDamage, _projectileSpeed, 3f);
         }

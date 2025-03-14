@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour, IDamage
     [SerializeField] private float _shootDistance;
     [SerializeField] private int _shootDamage;
     [SerializeField] private LayerMask _damageLayer;
+    Ray _projectileRay;
 
     private Vector3 _moveDirection;
     private Vector3 _playerVelocity;
@@ -37,11 +38,18 @@ public class PlayerController : MonoBehaviour, IDamage
         UpdatePlayerUI();
     }
 
+    // Terrence Edit
+    void FixedUpdate()
+    {
+        _projectileRay.origin = _shotPoint.position;
+        _projectileRay.direction = _shotPoint.forward;
+    }
+    // Terrence Edit
 
     private void Update()
     {
         _shootTimer += Time.deltaTime;
-        Debug.DrawRay(_camera.transform.position, _camera.transform.forward * _shootDistance);
+        Debug.DrawRay(_shotPoint.position, _shotPoint.forward * _shootDistance);
 
         if (Input.GetButton("Fire1") && _shootTimer >= _shootRate)
         {
@@ -98,7 +106,8 @@ public class PlayerController : MonoBehaviour, IDamage
         _shootTimer = 0;
         if(_useProjectile)
         {
-            var bullet = Instantiate(_bulletPrefab, _shotPoint.position, transform.rotation);
+            var bullet = Instantiate(_bulletPrefab, _shotPoint.position, _shotPoint.rotation);
+            bullet.transform.LookAt(_projectileRay.GetPoint(100), Vector3.up);
             bullet.layer = LayerMask.NameToLayer("Player Bullet");
             bullet.GetComponent<Damage>().InitBullet(_shootDamage, _projectileSpeed, 3f);
         }

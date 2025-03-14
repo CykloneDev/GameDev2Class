@@ -85,20 +85,20 @@ public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>, IDamage
     {
         States = new Dictionary<EnemyState, BaseState<EnemyState>>();
 
-        Debug.Log("Added Idle State to " + gameObject.name);
+        //Debug.Log("Added Idle State to " + gameObject.name);
         States.Add(EnemyState.RandomIdle, new IdleState(_context, EnemyState.RandomIdle,
             _minRandomWait, _maxRandomWait));
 
-        Debug.Log("Added Damage State to " + gameObject.name);
+       // Debug.Log("Added Damage State to " + gameObject.name);
         States.Add(EnemyState.Damage, new DamageState(_context, EnemyState.Damage, .5f));
 
 
-        Debug.Log("Added Death State to " + gameObject.name);
+       // Debug.Log("Added Death State to " + gameObject.name);
         States.Add(EnemyState.Death, new DeathState(_context, EnemyState.Death));
 
         if (StatesUsed.Contains(EnemyState.Waypoint))
         {
-            Debug.Log("Added Waypoint State to " + gameObject.name);
+            //Debug.Log("Added Waypoint State to " + gameObject.name);
             _context.SetUseWaypoints(true);
             States.Add(EnemyState.Waypoint, new WaypointState(_context, EnemyMachine.EnemyState.Waypoint, 
                 _waypoints, _walkSpeed)); 

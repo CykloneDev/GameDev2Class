@@ -113,6 +113,7 @@ public class GameManager : MonoBehaviour
             {
                 case powerUps.PowerUpType.givehealth:
                     player.Health += player.giveHealth;
+                    player.UpdatePlayerUI();
                     Debug.Log("Health has been added to the player");
                     break;
                 case powerUps.PowerUpType.speedboost:
@@ -133,6 +134,7 @@ public class GameManager : MonoBehaviour
                     break;
                 case powerUps.PowerUpType.increasemaxhealth:
                     player.MaxHealth += player.newMaxHealth;
+                    player.UpdatePlayerUI();
                     Debug.Log("MaxHealth has been increased!");
                     break;
                 default:
