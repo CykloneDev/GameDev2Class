@@ -868,8 +868,8 @@ Transform:
   m_GameObject: {fileID: 3050289920752686728}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.78, z: 0}
-  m_LocalScale: {x: 125.87523, y: 7.867202, z: 7.867202}
+  m_LocalPosition: {x: 0, y: 1.78, z: 0.8}
+  m_LocalScale: {x: 125.87523, y: 7.867202, z: 33.083942}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4052506539601745437}
@@ -931,7 +931,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 0
   serializedVersion: 3
-  m_Radius: 0.2
+  m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3076147402750731825
 GameObject:
@@ -2125,7 +2125,7 @@ MonoBehaviour:
     _dead: 0
   _model: {fileID: 5798024747780639780}
   _currentHP: 0
-  _maxHP: 20
+  _maxHP: 10
   _dead: 0
   _minRandomWait: 3
   _maxRandomWait: 5
@@ -2137,15 +2137,12 @@ MonoBehaviour:
   _focusIdleRotationSpeed: 180
   _fleeRadius: 10
   StatesUsed: 00000000020000000300000006000000
-  _waypoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  _waypoints: []
   _bulletPrefab: {fileID: 2385919531371957180, guid: 951b93cda898dbf409bfbbaac8f8211a, type: 3}
   _shotPoint: {fileID: 4061223536346733139}
-  _attackRange: 30
+  _attackRange: 100
   _shotFrequency: 0.5
-  _shotSpeed: 10
+  _shotSpeed: 30
   _shotCount: 3
   _shotDamageAmount: 1
   _shotRotationSpeed: 5
