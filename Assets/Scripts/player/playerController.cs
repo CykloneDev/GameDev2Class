@@ -20,15 +20,18 @@ public class playerController : MonoBehaviour
     [Range(0.5f, 5f)][SerializeField] float slideDuration; //Duration of how long the slide will last
     [Range(0.5f, 10f)][SerializeField] float slideFriction; //How much friction there will be when sliding.
     float slideTimer; // Takes in the slideDuration as a reusable timer.
-    float slideHeight = 0.8f; // The height when the player is sliding
+    float slideHeight = 1f; // The height when the player is sliding
 
 
     //Static Values and Timers
     int jumpCount; //a jump counter.
     int healthOriginal; //Default Health
+    float speedOriginal;
     float normalHeight = 2f; // The height when the player spawns
-    float crouchHeight = 1f; // The height when the player is crouching
-    float tempSpeed; //Temp speed from coming out of the slide.
+    float crouchHeight = 1f; // The height when the player is crouching\
+    Vector3 normalCenter = new Vector3(0.0f, 1.1f, 0.0f);
+    Vector3 crouchedCenter = new Vector3(0.0f, 0.5f, 0.0f);
+    Vector3 slideCenter = new Vector3(0.0f, 0.5f, 0.0f);
 
 
     //Bools
@@ -36,6 +39,9 @@ public class playerController : MonoBehaviour
     bool isCrouching = false;
     bool isSprinting = false;
     bool isJumping = false;
+    bool isWalking = false;
+
+   
 
 
     //Vectors
@@ -44,14 +50,13 @@ public class playerController : MonoBehaviour
     Vector3 tempMoveDirection;
 
 
-    //Animations
     [SerializeField] Animator anim;
-    [SerializeField] int animTransitionSpeed;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
+        speedOriginal = speed; // Setting up a temp speed var.
     }
 
 
@@ -67,6 +72,7 @@ public class playerController : MonoBehaviour
     {
         if (controller.isGrounded) //Checks if grounded, if so then resets counter for multiple jumps
         {
+            anim.SetBool("isJumping", false);
             isJumping = false;
             jumpCount = 0;
         }
@@ -78,27 +84,29 @@ public class playerController : MonoBehaviour
         controller.Move(moveDirection * speed * Time.deltaTime); //calls for the Controller to move.
 
         jump(); //Checks to see if Jump is being called.
-
-        //Gravity
         controller.Move(playerVelocity * Time.deltaTime);
         playerVelocity.y -= gravity * Time.deltaTime; //Adds gravity to the Y velocity.
 
         crouch();
 
 
+        float moveDirectionSpeed = moveDirection.magnitude;//Calculates speed to blend anims
+        anim.SetFloat("MoveSpeed", moveDirectionSpeed);
 
     }
 
     void sprint()
     {
-        if (Input.GetButtonDown("Sprint"))
+        if (Input.GetButtonDown("Sprint") && !isSliding)
         {
+            anim.SetBool("isSprinting", true);
             isSprinting = true;
             speed *= sprintMultiplier;
         }
-        else if (Input.GetButtonUp("Sprint"))
+        else if (Input.GetButtonUp("Sprint") && !isSliding)
         {
-            speed /= sprintMultiplier;
+            anim.SetBool("isSprinting", false);
+            speed = speedOriginal;
             isSprinting = false;
         }
     }
@@ -108,6 +116,7 @@ public class playerController : MonoBehaviour
     {
         if (Input.GetButtonDown("Jump") && jumpCount < jumpsMax)
         {
+            anim.SetBool("isJumping", true);
             isJumping = true;
             jumpCount++;
             playerVelocity.y = jumpSpeed;
@@ -120,15 +129,19 @@ public class playerController : MonoBehaviour
         {
             if (Input.GetButtonDown("Crouch") && controller.isGrounded)
             {
+                anim.SetBool("isCrouching", true);
                 isCrouching = true;
                 speed *= crouchMultiplier;
                 controller.height = crouchHeight;
+                controller.center = crouchedCenter;
             }
-            else if (Input.GetButtonUp("Crouch"))
+            else if (Input.GetButtonUp("Crouch") || Input.GetButtonDown("Jump") || Input.GetButtonDown("Sprint") || Input.GetButtonDown("Slide"))
             {
+                anim.SetBool("isCrouching", false);
                 isCrouching = false;
-                speed /= crouchMultiplier;
+                speed = speedOriginal;
                 controller.height = normalHeight;
+                controller.center = normalCenter;
             }
         }
     }
@@ -141,13 +154,15 @@ public class playerController : MonoBehaviour
         }
 
 
-        if(isSliding)
+        if (isSliding)
         {
-            if (slideTimer <= 0 || moveDirection.magnitude <= 0.5f || Input.GetButtonUp("Slide") || Input.GetButtonDown("Sprint"))
+            if (slideTimer <= 0 || moveDirection.magnitude <= 0.5f || Input.GetButtonUp("Slide") 
+               || Input.GetButtonDown("Sprint") || Input.GetButtonDown("Crouch") || Input.GetButtonDown("Jump"))
             {
                 endSlide();
             }
-            else{
+            else
+            {
                 sliding();
             }
         }
@@ -157,11 +172,14 @@ public class playerController : MonoBehaviour
     void startSlide()
     {
         //Timers and Bools
+        anim.SetBool("isSliding", true);
+        anim.SetBool("isSprinting", false);
         isSliding = true;
         slideTimer = slideDuration;
 
         speed *= slideMultiplier;
         controller.height = slideHeight;
+        controller.center = slideCenter;
         moveDirection = transform.forward * slideSpeed;
     }
 
@@ -178,9 +196,11 @@ public class playerController : MonoBehaviour
 
     void endSlide()
     {
+        anim.SetBool("isSliding", false);
         isSliding = false;
         controller.height = normalHeight;
-        speed /= slideMultiplier;
+        controller.center = normalCenter;
+        speed = speedOriginal;
     }
 
 
