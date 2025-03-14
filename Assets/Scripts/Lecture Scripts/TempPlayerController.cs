@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour, IDamage
+public class TempPlayerController : MonoBehaviour, IDamage
 {
     [SerializeField] private CharacterController _character;
     Camera _camera;
