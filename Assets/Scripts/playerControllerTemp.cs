@@ -51,7 +51,8 @@ public class playerControllerTemp : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
+        healthOriginal = health;
+        updatePlayerUI();
     }
 
     // Update is called once per frame
@@ -159,6 +160,11 @@ public class playerControllerTemp : MonoBehaviour
     {
         isSliding = false;
         controller.height = normalHeight;
+    }
+
+    public void updatePlayerUI()
+    {
+        GameManager.instance.playerHPBar.fillAmount = (float)health / healthOriginal;
     }
 
 }
