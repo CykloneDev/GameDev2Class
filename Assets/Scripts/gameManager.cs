@@ -60,15 +60,15 @@ public class GameManager : MonoBehaviour
 
     public void PauseState()
     {
-        _isPaused = !_isPaused;
+        _isPaused = true;
         Time.timeScale = 0;
         Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.lockState = CursorLockMode.Confined; 
     }
 
     public void UnpauseState()
     {
-        _isPaused = !_isPaused;
+        _isPaused = false;
         Time.timeScale = _defaultTimeScale;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -105,36 +105,36 @@ public class GameManager : MonoBehaviour
         }
     }
 
-   public void OnPowerUpCollected(powerUps.PowerUpType type)  
+    public void OnPowerUpCollected(powerUps.PowerUpType type)
     {
-        if(playerTransform.TryGetComponent(out playerController player))
+        if (playerTransform.TryGetComponent(out playerController player))
         {
             switch (type)
             {
                 case powerUps.PowerUpType.givehealth:
                     player.Health += player.giveHealth;
                     Debug.Log("Health has been added to the player");
-                break;
+                    break;
                 case powerUps.PowerUpType.speedboost:
                     player.Speed += player.maxSpeed;
                     Debug.Log("Speedboost has been added to the player");
-                break;
+                    break;
                 case powerUps.PowerUpType.damageup:
                     //Logic not implemented
                     Debug.Log("Damageboost has been added to the player");
-                break;
+                    break;
                 case powerUps.PowerUpType.increasejump:
                     player.Jumps += player.setJumpsMax;
                     Debug.Log("Increasejumps has been added to the player");
-                break;
+                    break;
                 case powerUps.PowerUpType.gravity:
-                player.Gravity = player.maxGravity; 
+                    player.Gravity = player.maxGravity;
                     Debug.Log("Gravity has been changed");
-                break;
+                    break;
                 case powerUps.PowerUpType.increasemaxhealth:
                     player.MaxHealth += player.newMaxHealth;
                     Debug.Log("MaxHealth has been increased!");
-                break;
+                    break;
                 default:
                     Debug.LogWarning("Unknown power-up type collected");
                     break;
@@ -145,7 +145,5 @@ public class GameManager : MonoBehaviour
             Debug.LogWarning("Player component not found on playerTransform!");
         }
 
-   }
+    }
 }
-        
-    

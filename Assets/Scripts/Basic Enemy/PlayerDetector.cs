@@ -17,6 +17,7 @@ public class PlayerDetector : MonoBehaviour
 
     private void Start()
     {
+        _player = GameManager.instance.GetPlayerTransform();
         _sphereCollider.enabled = false;
         _playerDetected = false;
         _inRange = false;
@@ -43,7 +44,6 @@ public class PlayerDetector : MonoBehaviour
         {
             if(other.CompareTag("Player"))
             {
-                _player = other.transform;
                 _sphereCollider.enabled = true;
                 _playerDetected = true;
             }
@@ -72,4 +72,9 @@ public class PlayerDetector : MonoBehaviour
     }
 
     public bool PlayerDetected() => _playerDetected;
+
+    public void SeePlayer()
+    {
+        _playerDetected = true;
+    }
 }

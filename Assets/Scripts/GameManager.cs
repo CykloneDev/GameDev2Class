@@ -5,7 +5,7 @@ using TMPro;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
-    public PlayerController playerController;
+    public playerController playerController;
     Transform playerTransform;
 
     private bool _isPaused;
@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+        playerController = GameObject.FindWithTag("Player").GetComponent<playerController>();
         playerTransform = playerController.transform;
         _defaultTimeScale = Time.timeScale;
         _isPaused = false;
@@ -103,5 +103,47 @@ public class GameManager : MonoBehaviour
             _win = true;
             _isPaused = true;
         }
+    }
+
+    public void OnPowerUpCollected(powerUps.PowerUpType type)
+    {
+        if (playerTransform.TryGetComponent(out playerController player))
+        {
+            switch (type)
+            {
+                case powerUps.PowerUpType.givehealth:
+                    player.Health += player.giveHealth;
+                    Debug.Log("Health has been added to the player");
+                    break;
+                case powerUps.PowerUpType.speedboost:
+                    player.Speed += player.maxSpeed;
+                    Debug.Log("Speedboost has been added to the player");
+                    break;
+                case powerUps.PowerUpType.damageup:
+                    //Logic not implemented
+                    Debug.Log("Damageboost has been added to the player");
+                    break;
+                case powerUps.PowerUpType.increasejump:
+                    player.Jumps += player.setJumpsMax;
+                    Debug.Log("Increasejumps has been added to the player");
+                    break;
+                case powerUps.PowerUpType.gravity:
+                    player.Gravity = player.maxGravity;
+                    Debug.Log("Gravity has been changed");
+                    break;
+                case powerUps.PowerUpType.increasemaxhealth:
+                    player.MaxHealth += player.newMaxHealth;
+                    Debug.Log("MaxHealth has been increased!");
+                    break;
+                default:
+                    Debug.LogWarning("Unknown power-up type collected");
+                    break;
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Player component not found on playerTransform!");
+        }
+
     }
 }

@@ -2014,7 +2014,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.2711, y: 1.2711, z: 1.2711}
+  m_LocalScale: {x: 1.1094333, y: 1.1094333, z: 1.1094333}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4697014053851485773}
@@ -2149,7 +2149,7 @@ MonoBehaviour:
   _shotCount: 3
   _shotDamageAmount: 1
   _shotRotationSpeed: 5
-  _damageLayer: Player
+  _damageLayer: Enemy Bullet
   currentState: 0
 --- !u!136 &2949518337980633269
 CapsuleCollider:

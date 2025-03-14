@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class ISPlayerController : MonoBehaviour, IDamage
+public class ISplayerController : MonoBehaviour, IDamage
 {
     [SerializeField] private CharacterController _character;
     Camera _camera;

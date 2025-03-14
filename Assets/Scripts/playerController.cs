@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using Unity.VisualScripting;
 
-public class playerController : MonoBehaviour
+public class playerController : MonoBehaviour, IDamage
 {
     //Unity Editable Variables for Player Movement
     [SerializeField] CharacterController controller; // Player's movement controller
@@ -54,6 +54,19 @@ public class playerController : MonoBehaviour
     [SerializeField] Animator anim;
     [SerializeField] int animTransitionSpeed;
 
+    // Terrence Edit
+    Camera _camera;
+    [SerializeField] private bool _useProjectile;
+    [SerializeField] private Transform _shotPoint;
+    [SerializeField] private GameObject _bulletPrefab;
+    [SerializeField] private int _projectileSpeed;
+    [SerializeField] private float _shootRate;
+    [SerializeField] private float _shootDistance;
+    [SerializeField] private int _shootDamage;
+    [SerializeField] private LayerMask _damageLayer;
+    private float _shootTimer;
+    //Terrence Edit
+
     //Getters and Setters to modify values without directly accessing the attributes
     public int Health
     {
@@ -85,6 +98,7 @@ public class playerController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        _camera = Camera.main; 
         healthOriginal = health; //We need to set healthOriginal to the players set health at the start 
         maxHealth = health; //This will be used to directly modify the current maxHealth of the player via gamemanager
     }
@@ -92,7 +106,17 @@ public class playerController : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
+    { 
+        // Terrence Edit
+        _shootTimer += Time.deltaTime;
+        Debug.DrawRay(_camera.transform.position, _camera.transform.forward * _shootDistance);
+
+        if (Input.GetButton("Fire1") && _shootTimer >= _shootRate)
+        {
+            Shoot();
+        }
+        //Terrence edit
+
         movement();
         sprint();
         slideManager();
@@ -219,5 +243,61 @@ public class playerController : MonoBehaviour
         speed /= slideMultiplier;
     }
 
+    // Terrence Edit
 
+    void Shoot()
+    {
+        _shootTimer = 0;
+        if (_useProjectile)
+        {
+            var bullet = Instantiate(_bulletPrefab, _shotPoint.position, transform.rotation);
+            bullet.layer = LayerMask.NameToLayer("Player Bullet");
+            bullet.GetComponent<Damage>().InitBullet(_shootDamage, _projectileSpeed, 3f);
+        }
+
+        else
+        {
+            RaycastHit hit;
+
+            if (Physics.Raycast(_camera.transform.position, _camera.transform.forward, out hit,
+                _shootDistance, _damageLayer))
+            {
+                IDamage damage;
+                hit.collider.TryGetComponent<IDamage>(out damage);
+                if (damage != null)
+                {
+                    damage.TakeDamage(_shootDamage);
+                }
+            }
+        }
+    }
+
+    public void TakeDamage(int amount)
+    {
+        health -= amount;
+        StartCoroutine(FlashDamageScreen());
+
+        if (health <= 0)
+        {
+            GameManager.instance.Lose();
+        }
+
+        UpdatePlayerUI();
+    }
+
+    IEnumerator FlashDamageScreen()
+    {
+        GameManager.instance.playerDamageScreen.SetActive(true);
+
+        yield return new WaitForSeconds(0.1f);
+
+        GameManager.instance.playerDamageScreen.SetActive(false);
+    }
+
+    public void UpdatePlayerUI()
+    {
+        GameManager.instance.playerHPBar.fillAmount = (float)health / maxHealth;
+    }
+
+    //Terrence Edit
 }
