@@ -57,11 +57,14 @@ public class playerController : MonoBehaviour, IDamage
 
 
     [SerializeField] Animator anim;
+    AudioSource _source;
+    [SerializeField] private AudioClip _walkClip, _jumpClip, _slideClip, _crouchClip;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        _source = GetComponent<AudioSource>();
         health = maxHealth;
         speedOriginal = speed; // Setting up a temp speed var.
         UpdatePlayerUI();
@@ -128,6 +131,8 @@ public class playerController : MonoBehaviour, IDamage
             isJumping = true;
             jumpCount++;
             playerVelocity.y = jumpSpeed;
+            
+            if(_jumpClip != null) _source.PlayOneShot(_jumpClip);
         }
     }
 
@@ -142,6 +147,7 @@ public class playerController : MonoBehaviour, IDamage
                 speed *= crouchMultiplier;
                 controller.height = crouchHeight;
                 controller.center = crouchedCenter;
+                if (_crouchClip != null) _source.PlayOneShot(_crouchClip);
             }
             else if (Input.GetButtonUp("Crouch") || Input.GetButtonDown("Jump") || Input.GetButtonDown("Sprint") || Input.GetButtonDown("Slide"))
             {
@@ -150,6 +156,7 @@ public class playerController : MonoBehaviour, IDamage
                 speed = speedOriginal;
                 controller.height = normalHeight;
                 controller.center = normalCenter;
+                if (_crouchClip != null) _source.PlayOneShot(_crouchClip);
             }
         }
     }
@@ -159,6 +166,7 @@ public class playerController : MonoBehaviour, IDamage
         if (Input.GetButtonDown("Slide") && isSprinting && controller.isGrounded)
         {
             startSlide();
+            if (_slideClip != null) _source.PlayOneShot(_slideClip);
         }
 
 
