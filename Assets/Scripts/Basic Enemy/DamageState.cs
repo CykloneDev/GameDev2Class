@@ -17,7 +17,6 @@ public class DamageState : EnemyBaseState
 
         agent.isStopped = true;
         agent.updateRotation = false;
-        _context.GetPlayerDetector().SeePlayer();
 
         animator.Play("Idle"); // Just play idle for now until I get a damage reaction animation
         _currentFlinchTime = 0;
