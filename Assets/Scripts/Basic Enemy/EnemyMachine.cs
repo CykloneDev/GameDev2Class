@@ -167,10 +167,29 @@ public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>, IDamage
         _context.SetDamage(true);
         StartCoroutine(FlashRed());
     }
+
+    public void HealDamage(int value)
+    {
+        _currentHP += value;
+        if(_currentHP > _maxHP)
+            _currentHP = _maxHP;
+
+        StartCoroutine(FlashGreen());
+    }
+
     IEnumerator FlashRed()
     {
         var color = _model.material.color;
         _model.material.color = Color.red;
+        yield return new WaitForSeconds(0.1f);
+        _model.material.color = color;
+        yield return null;
+    }
+
+    IEnumerator FlashGreen()
+    {
+        var color = _model.material.color;
+        _model.material.color = Color.green;
         yield return new WaitForSeconds(0.1f);
         _model.material.color = color;
         yield return null;

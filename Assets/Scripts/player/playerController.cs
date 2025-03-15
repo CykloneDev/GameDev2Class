@@ -7,12 +7,7 @@ public class playerController : MonoBehaviour, IDamage
     //Unity Editable Variables for Player Movement
 
     //Health Variables
-    [SerializeField, Range(0, 100)] private int hitPoints;
-    private int maxHitPoints;
-    [Range(1, 10)][SerializeField] int health; // Player's Health 
-    [Range(1, 10)][SerializeField] public int giveHealth; //Set the amount of giveHealth you want the player to increase through givehealth powerups
-    [Range(1, 10)][SerializeField] public int newMaxHealth; //Set the amount of maxHealth you want the player to increase through maxhealth powerups
-
+    [SerializeField] int health, maxHealth;
     //Speed Variables
     [Range(2, 10)][SerializeField] float speed; // Player's Base Speed
     [Range(2, 5)][SerializeField] float sprintMultiplier; // Player's Speed Multiplier when Running
@@ -22,8 +17,6 @@ public class playerController : MonoBehaviour, IDamage
 
 
     [Range(1, 3)][SerializeField] int jumpsMax; // Max Jumps
-    [Range(1, 20)][SerializeField] public int setJumpsMax; //Set how much you want the players jumpsMax to increase through increasejumps powerups
-
     [Range(15, 45)][SerializeField] int gravity; //Newtons Law 
     [Range(1, 100)][SerializeField] public int maxGravity; //Set how much gravity you want the player to have (1 through 100 to give m
 
@@ -38,11 +31,9 @@ public class playerController : MonoBehaviour, IDamage
 
     //Static Values and Timers
     int jumpCount; //a jump counter.
-    int healthOriginal; //Default Health
     float speedOriginal;
     float normalHeight = 2f; // The height when the player spawns
     float crouchHeight = 1f; // The height when the player is crouching\
-    int maxHealth; //Is set to max health as soon as game starts
     Vector3 normalCenter = new Vector3(0.0f, 1.1f, 0.0f);
     Vector3 crouchedCenter = new Vector3(0.0f, 0.5f, 0.0f);
     Vector3 slideCenter = new Vector3(0.0f, 0.5f, 0.0f);
@@ -68,42 +59,11 @@ public class playerController : MonoBehaviour, IDamage
     [SerializeField] Animator anim;
 
 
-
-    //Getters and Setters to modify values without directly accessing the attributes
-    public int Health
-    {
-        get { return health; }
-        set { health = Mathf.Clamp(value, 1, maxHealth); } // Setter with clamping to keep health within 1 and maxHealth
-    }
-    public float Speed
-    {
-        get { return speed; }
-        set { speed = Mathf.Clamp(value, 2f, maxSpeed); } // Allows you to modify the players current speed (this will apply to crouch and sprint multipliers)
-    }
-    public int Jumps
-    {
-        get { return jumpsMax; }
-        set { jumpsMax = Mathf.Clamp(value, 1, setJumpsMax); } //Allows you to modify how many maxJumps the player can have
-    }
-    public int Gravity
-    {
-        get { return gravity; }
-        set { gravity = Mathf.Clamp(value, 1, maxGravity); } //Allows you to modify the current player gravity to whatever you set it to
-    }
-    public int MaxHealth
-    {
-        get { return maxHealth; }
-        set { maxHealth = Mathf.Clamp(value, 1, maxHealth += newMaxHealth); }
-    }
-
-
-
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        health = maxHealth;
         speedOriginal = speed; // Setting up a temp speed var.
-        maxHitPoints = hitPoints;
         UpdatePlayerUI();
     }
 
@@ -251,12 +211,9 @@ public class playerController : MonoBehaviour, IDamage
         speed = speedOriginal;
     }
 
-
-
-
-    public void TakeDamage(int amount)
+    public void TakeDamage(int value)
     {
-        health -= amount;
+        health -= value;
         StartCoroutine(FlashDamageScreen());
 
         if (health <= 0)
@@ -267,6 +224,38 @@ public class playerController : MonoBehaviour, IDamage
         UpdatePlayerUI();
     }
 
+    public void HealDamage(int value)
+    {
+        health += value;
+        if (health > maxHealth)
+            health = maxHealth;
+    }
+
+    public void AddSpeed(float value)
+    {
+        // NOt implemented
+    }
+
+    public void RemoveSpeed(float value)
+    {
+        // Return to cached speed
+    }
+
+    public void SetJumps(int value)
+    {
+        jumpsMax = value;
+    }
+
+    public void SetGravity(int value)
+    {
+        // ??
+    }
+
+    public void SetMaxHP(int value)
+    {
+        maxHealth = value;
+    }
+
     IEnumerator FlashDamageScreen()
     {
         GameManager.instance.playerDamageScreen.SetActive(true);
@@ -274,6 +263,15 @@ public class playerController : MonoBehaviour, IDamage
         yield return new WaitForSeconds(0.1f);
 
         GameManager.instance.playerDamageScreen.SetActive(false);
+    }
+
+    IEnumerator FlashHealScreen()
+    {
+        GameManager.instance.playerHealScreen.SetActive(true);
+
+        yield return new WaitForSeconds(0.1f);
+
+        GameManager.instance.playerHealScreen.SetActive(false);
     }
 
     public void UpdatePlayerUI()

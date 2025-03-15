@@ -17,10 +17,17 @@ public class GameManager : MonoBehaviour
     public GameObject winMenu;
     public GameObject lossMenu;
     public GameObject playerDamageScreen;
+    public GameObject playerHealScreen;
     public Image playerHPBar;
     public TMP_Text goalCountText;
 
     [SerializeField] int goalCount;
+
+    [SerializeField] int healAmount;
+    [SerializeField] int speedIncrease;
+    [SerializeField] int jumpIncrease;
+    [SerializeField] int maxHPIncrease;
+    [SerializeField] int gravityIncrease;
 
     private void Awake()
     {
@@ -112,12 +119,12 @@ public class GameManager : MonoBehaviour
             switch (type)
             {
                 case powerUps.PowerUpType.givehealth:
-                    player.Health += player.giveHealth;
+                    player.HealDamage(healAmount);
                     player.UpdatePlayerUI();
                     Debug.Log("Health has been added to the player");
                     break;
                 case powerUps.PowerUpType.speedboost:
-                    player.Speed += player.maxSpeed;
+                    player.AddSpeed(speedIncrease);
                     Debug.Log("Speedboost has been added to the player");
                     break;
                 case powerUps.PowerUpType.damageup:
@@ -125,15 +132,15 @@ public class GameManager : MonoBehaviour
                     Debug.Log("Damageboost has been added to the player");
                     break;
                 case powerUps.PowerUpType.increasejump:
-                    player.Jumps += player.setJumpsMax;
+                    player.SetJumps(jumpIncrease);
                     Debug.Log("Increasejumps has been added to the player");
                     break;
                 case powerUps.PowerUpType.gravity:
-                    player.Gravity = player.maxGravity;
+                    player.SetGravity(gravityIncrease);
                     Debug.Log("Gravity has been changed");
                     break;
                 case powerUps.PowerUpType.increasemaxhealth:
-                    player.MaxHealth += player.newMaxHealth;
+                    player.SetMaxHP(maxHPIncrease);
                     player.UpdatePlayerUI();
                     Debug.Log("MaxHealth has been increased!");
                     break;
