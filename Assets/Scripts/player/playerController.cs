@@ -4,8 +4,6 @@ using System.Collections;
 public class playerController : MonoBehaviour, IDamage
 {
     [SerializeField] CharacterController controller; // Player's movement controller
-    Camera Camera;
-
     //Unity Editable Variables for Player Movement
 
     //Health Variables
@@ -36,17 +34,6 @@ public class playerController : MonoBehaviour, IDamage
     [Range(0.5f, 10f)][SerializeField] float slideFriction; //How much friction there will be when sliding.
     float slideTimer; // Takes in the slideDuration as a reusable timer.
     float slideHeight = 1f; // The height when the player is sliding
-
-    //Gun Variables
-    [SerializeField] private bool useProjectile;
-    [SerializeField] private Transform shotPoint;
-    [SerializeField] private GameObject bulletPrefab;
-    [SerializeField] private int projectileSpeed;
-    [SerializeField] private float shootRate;
-    [SerializeField] private float shootDistance;
-    [SerializeField] private int shootDamage;
-    [SerializeField] private LayerMask damageLayer;
-    Ray projectileRay;
 
 
     //Static Values and Timers
@@ -79,12 +66,6 @@ public class playerController : MonoBehaviour, IDamage
 
 
     [SerializeField] Animator anim;
-
-
-    private void Awake()
-    {
-        Camera = Camera.main;
-    }
 
 
 
@@ -126,23 +107,10 @@ public class playerController : MonoBehaviour, IDamage
         UpdatePlayerUI();
     }
 
-    void FixedUpdate()
-    {
-        projectileRay.origin = shotPoint.position;
-        projectileRay.direction = shotPoint.forward;
-    }
-
     // Update is called once per frame
     void Update()
     {
         shootTimer += Time.deltaTime;
-        Debug.DrawRay(shotPoint.position, shotPoint.forward * shootDistance);
-
-        if (Input.GetButton("Fire1") && shootTimer >= shootRate)
-        {
-            Shoot();
-        }
-
         movement();
         sprint();
         slideManager();
@@ -284,34 +252,6 @@ public class playerController : MonoBehaviour, IDamage
     }
 
 
-    void Shoot()
-    {
-        shootTimer = 0;
-        if (useProjectile)
-        {
-            var bullet = Instantiate(bulletPrefab, shotPoint.position, shotPoint.rotation);
-            bullet.transform.LookAt(projectileRay.GetPoint(100), Vector3.up);
-            bullet.layer = LayerMask.NameToLayer("Player Bullet");
-            bullet.GetComponent<Damage>().InitBullet(shootDamage, projectileSpeed, 3f);
-        }
-
-        else
-        {
-            RaycastHit hit;
-
-            if (Physics.Raycast(GetComponent<Camera>().transform.position, GetComponent<Camera>().transform.forward, out hit,
-                shootDistance, damageLayer))
-            {
-                IDamage damage;
-                hit.collider.TryGetComponent<IDamage>(out damage);
-                if (damage != null)
-                {
-                    damage.TakeDamage(shootDamage);
-                }
-            }
-        }
-    }
-
 
 
     public void TakeDamage(int amount)
@@ -339,6 +279,12 @@ public class playerController : MonoBehaviour, IDamage
     public void UpdatePlayerUI()
     {
         GameManager.instance.playerHPBar.fillAmount = (float)health / maxHealth;
+    }
+
+
+    void NewEvent()
+    {
+        //Just here to get rid of NewEvent errors, since they are from Mixamo they are locked to read only.
     }
 
 }

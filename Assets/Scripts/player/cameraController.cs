@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class cameraController : playerController
+public class cameraController : MonoBehaviour
 {
     [SerializeField] int sens = 300; 
     [SerializeField] int lockVertMin = -90, lockVertMax = 90;
@@ -9,7 +9,7 @@ public class cameraController : playerController
     [SerializeField] Vector3 crouchOffset = new Vector3(0f, 0.5f, 0f);//How much the camera drops when crouching.
     [SerializeField] float offsetSpeed = 5f;   
     [SerializeField] Transform head;
-    [SerializeField] CharacterController controller;
+    [SerializeField] CharacterController Charactercontroller;
     [SerializeField] Transform player;
 
     float rotX; //Rotation X
@@ -19,7 +19,7 @@ public class cameraController : playerController
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;//Locking the Cursor while playing.
 
-        controller = GetComponentInParent<CharacterController>();
+        Charactercontroller = GetComponentInParent<CharacterController>();
         player = transform.parent;
 
     }
@@ -48,7 +48,7 @@ public class cameraController : playerController
     void UpdateCameraPosition()
     {
         Vector3 targetPosition = normalOffset; // Start with normal position
-        if (controller.height < 2f) // Crouching
+        if (Charactercontroller.height < 2f) // Crouching
         {
             //Subtracts the crouching offset from the normal offset.
             targetPosition = normalOffset - crouchOffset;
