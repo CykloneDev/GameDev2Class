@@ -288,9 +288,9 @@ public class playerController : MonoBehaviour, IDamage
     }
 
 
-    void NewEvent()
+    void PlayStep()
     {
-        //Just here to get rid of NewEvent errors, since they are from Mixamo they are locked to read only.
+        if (_walkClip != null) _source.PlayOneShot(_walkClip);
     }
 
 }
