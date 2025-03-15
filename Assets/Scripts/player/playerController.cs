@@ -241,12 +241,12 @@ public class playerController : MonoBehaviour, IDamage
 
     public void AddSpeed(float value)
     {
-        // NOt implemented
+        speed += value;
     }
 
     public void RemoveSpeed(float value)
     {
-        // Return to cached speed
+        speed -= value;
     }
 
     public void SetJumps(int value)
@@ -256,7 +256,7 @@ public class playerController : MonoBehaviour, IDamage
 
     public void SetGravity(int value)
     {
-        // ??
+        gravity = value;
     }
 
     public void SetMaxHP(int value)
