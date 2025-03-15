@@ -686,7 +686,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Slay the entire host of hell.
+  m_text: 'Destroy all enemies.
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -814,10 +816,10 @@ MonoBehaviour:
   playerHPBar: {fileID: 1826194448437799544}
   goalCountText: {fileID: 4769619498363284964}
   goalCount: 0
-  healAmount: 0
-  speedIncrease: 0
-  jumpIncrease: 0
-  maxHPIncrease: 0
+  healAmount: 10
+  speedIncrease: 5
+  jumpIncrease: 1
+  maxHPIncrease: 5
   gravityIncrease: 0
 --- !u!114 &3653394489596641174
 MonoBehaviour:

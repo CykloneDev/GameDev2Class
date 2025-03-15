@@ -13,9 +13,12 @@ public class PlayerWeaponController : MonoBehaviour
     [SerializeField] private LayerMask _damageLayer;
     private float _shootTimer;
     Ray _projectileRay;
+    AudioSource _source;
+    [SerializeField] AudioClip _shotSound;
 
     private void Start()
     {
+        _source = GetComponent<AudioSource>();
         _camera = Camera.main;
     }
 
@@ -38,6 +41,9 @@ public class PlayerWeaponController : MonoBehaviour
     void Shoot()
     {
         _shootTimer = 0;
+        if(_shotSound != null)
+            _source.PlayOneShot(_shotSound);
+
         if (_useProjectile)
         {
             var bullet = Instantiate(_bulletPrefab, _shotPoint.position, _shotPoint.rotation);

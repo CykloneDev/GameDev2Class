@@ -25,7 +25,7 @@ public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>, IDamage
     private NavMeshAgent _agent;
     private Animator _animator;
     private PlayerDetector _playerDetector;
-    [SerializeField] private Renderer _model;
+    [SerializeField] private Renderer[] _model;
     [SerializeField] private int _currentHP;
     [SerializeField] private int _maxHP;
     [SerializeField] private bool _dead;
@@ -179,19 +179,29 @@ public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>, IDamage
 
     IEnumerator FlashRed()
     {
-        var color = _model.material.color;
-        _model.material.color = Color.red;
+        foreach(Renderer rend in _model)
+        {
+            rend.material.color = Color.red;
+        }
         yield return new WaitForSeconds(0.1f);
-        _model.material.color = color;
+        foreach (Renderer rend in _model)
+        {
+            rend.material.color = Color.white;
+        }
         yield return null;
     }
 
     IEnumerator FlashGreen()
     {
-        var color = _model.material.color;
-        _model.material.color = Color.green;
+        foreach (Renderer rend in _model)
+        {
+            rend.material.color = Color.green;
+        }
         yield return new WaitForSeconds(0.1f);
-        _model.material.color = color;
+        foreach (Renderer rend in _model)
+        {
+            rend.material.color = Color.white;
+        }
         yield return null;
     }
     #endregion
