@@ -165,6 +165,7 @@ public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>, IDamage
             return;
         }
         _context.SetDamage(true);
+        _context.GetPlayerDetector().SeePlayer();
         StartCoroutine(FlashRed());
     }
 
