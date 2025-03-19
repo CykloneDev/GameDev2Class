@@ -2,23 +2,21 @@ using UnityEngine;
 
 public class PlayerDetector : MonoBehaviour
 {
-    private Collider _sphereCollider;
     [SerializeField] private Transform _player;
     [SerializeField] private float _forgetTime; // Used to determine when a target is forgotten
     [SerializeField] private bool _playerDetected;
     [SerializeField] private bool _inRange;
+    [SerializeField] private float _fov;
+
+    [SerializeField] private float angleToPlayer;
+    [SerializeField] private Vector3 playerDir;
+    public LayerMask lineOfSightMask;
 
     private float _currentForgetTime;
-
-    private void Awake()
-    {
-        _sphereCollider = GetComponent<SphereCollider>();
-    }
 
     private void Start()
     {
         _player = GameManager.instance.GetPlayerTransform();
-        _sphereCollider.enabled = false;
         _playerDetected = false;
         _inRange = false;
         _currentForgetTime = 0;
@@ -26,6 +24,23 @@ public class PlayerDetector : MonoBehaviour
 
     private void Update()
     {
+        if(_inRange)
+        {
+            playerDir = _player.transform.position - transform.position;
+            angleToPlayer = Vector3.Angle(transform.forward, playerDir);
+            RaycastHit hit;
+            Physics.Raycast(transform.position, playerDir, out hit, float.PositiveInfinity, lineOfSightMask);
+            if(angleToPlayer <= _fov
+                && hit.collider.CompareTag("Player"))
+            {
+                _playerDetected = true;
+            }
+            else
+            {
+                _playerDetected = false;
+            }
+        }
+
         if (_playerDetected && !_inRange)
         {
             _currentForgetTime += Time.deltaTime;
@@ -38,36 +53,19 @@ public class PlayerDetector : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if(!_playerDetected)
-        {
-            if(other.CompareTag("Player"))
-            {
-                _sphereCollider.enabled = true;
-                _playerDetected = true;
-            }
-        }
-    }
-
     private void OnTriggerStay(Collider other)
     {
-        if(_playerDetected)
+        if (other.CompareTag("Player"))
         {
-            if (other.CompareTag("Player"))
-            {
-                _currentForgetTime = 0;
-                _inRange = true;
-            }
+            _inRange = true;
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if(_inRange)
+        if (other.CompareTag("Player"))
         {
-            if (other.CompareTag("Player"))
-                _inRange = false;
+            _inRange = false;
         }
     }
 
@@ -76,5 +74,17 @@ public class PlayerDetector : MonoBehaviour
     public void SeePlayer()
     {
         _playerDetected = true;
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        float rayRange = 10.0f;
+        float halfFOV = _fov / 2.0f;
+        Quaternion leftRayRotation = Quaternion.AngleAxis(-halfFOV, Vector3.up);
+        Quaternion rightRayRotation = Quaternion.AngleAxis(halfFOV, Vector3.up);
+        Vector3 leftRayDirection = leftRayRotation * transform.forward;
+        Vector3 rightRayDirection = rightRayRotation * transform.forward;
+        Gizmos.DrawRay(transform.position, leftRayDirection * rayRange);
+        Gizmos.DrawRay(transform.position, rightRayDirection * rayRange);
     }
 }
