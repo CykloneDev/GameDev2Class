@@ -1,6 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections.Generic;
+using UnityEngine.SceneManagement;
+using System.Linq;
 
 public class GameManager : MonoBehaviour
 {
@@ -20,6 +23,9 @@ public class GameManager : MonoBehaviour
     public GameObject playerHealScreen;
     public Image playerHPBar;
     public TMP_Text goalCountText;
+
+    public List<GameObject> waypointList;
+    public List<GameObject> coverList;
 
     [SerializeField] int goalCount;
 
@@ -60,6 +66,21 @@ public class GameManager : MonoBehaviour
             {
                 UnpauseState();
             }
+        }
+    }
+
+    private void OnLevelWasLoaded(int level)
+    {
+        waypointList.Clear();
+        foreach (var waypoint in GameObject.FindGameObjectsWithTag("Waypoint"))
+        {
+            waypointList.Add(waypoint);
+        }
+
+        coverList.Clear();
+        foreach (var cover in GameObject.FindGameObjectsWithTag("Cover"))
+        {
+            coverList.Add(cover);
         }
     }
 
