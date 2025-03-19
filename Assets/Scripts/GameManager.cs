@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
     public List<GameObject> coverList;
 
     [SerializeField] int goalCount;
+    [SerializeField] int enemiesDefeated;
 
     [SerializeField] int healAmount;
     [SerializeField] int speedIncrease;
@@ -132,6 +133,15 @@ public class GameManager : MonoBehaviour
             _isPaused = true;
         }
     }
+
+    public void OnEnemyDefeated()
+    {
+        ++enemiesDefeated;
+    }
+
+    public int EnemiesDefeated() => enemiesDefeated;
+
+    public void ResetDefeatedCount() { enemiesDefeated = 0; }
 
     public void OnPowerUpCollected(powerUps.PowerUpType type)
     {

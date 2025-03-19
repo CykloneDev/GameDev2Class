@@ -40,8 +40,11 @@ public class WanderState : EnemyBaseState
     public override EnemyMachine.EnemyState GetNextState()
     {
         var playerDetected = _context.GetPlayerDetector().PlayerDetected();
+        var dead = _context.GetDead();
 
-        if(playerDetected)
+        if (dead) return EnemyMachine.EnemyState.Death;
+
+        if (playerDetected)
         {
             if (_context.UseChase()) return EnemyMachine.EnemyState.Chase;
             else if (_context.UseFlee()) return EnemyMachine.EnemyState.Flee;

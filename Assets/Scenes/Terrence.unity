@@ -764,6 +764,10 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8525767224669865770, guid: 1ea3be99b2c580e4bb51b21a6fc0ed74, type: 3}
+      propertyPath: 'StatesUsed.Array.data[2]'
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8525767224669865770, guid: 1ea3be99b2c580e4bb51b21a6fc0ed74, type: 3}
       propertyPath: 'StatesUsed.Array.data[3]'
       value: 7
       objectReference: {fileID: 0}
