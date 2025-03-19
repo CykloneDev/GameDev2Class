@@ -54,7 +54,7 @@ MonoBehaviour:
   playerDir: {x: 0, y: 0, z: 0}
   lineOfSightMask:
     serializedVersion: 2
-    m_Bits: 264
+    m_Bits: 265
 --- !u!135 &8529519868931138267
 SphereCollider:
   m_ObjectHideFlags: 0

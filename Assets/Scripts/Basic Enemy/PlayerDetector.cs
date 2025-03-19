@@ -13,6 +13,7 @@ public class PlayerDetector : MonoBehaviour
     public LayerMask lineOfSightMask;
 
     private float _currentForgetTime;
+    private SphereCollider _collider;
 
     private void Start()
     {
@@ -20,6 +21,11 @@ public class PlayerDetector : MonoBehaviour
         _playerDetected = false;
         _inRange = false;
         _currentForgetTime = 0;
+    }
+
+    private void OnValidate()
+    {
+        _collider = GetComponent<SphereCollider>();
     }
 
     private void Update()
@@ -78,7 +84,7 @@ public class PlayerDetector : MonoBehaviour
 
     void OnDrawGizmosSelected()
     {
-        float rayRange = 10.0f;
+        float rayRange = _collider.radius;
         float halfFOV = _fov / 2.0f;
         Quaternion leftRayRotation = Quaternion.AngleAxis(-halfFOV, Vector3.up);
         Quaternion rightRayRotation = Quaternion.AngleAxis(halfFOV, Vector3.up);
