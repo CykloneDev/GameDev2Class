@@ -2,8 +2,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
-using UnityEngine.SceneManagement;
-using System.Linq;
 
 public class GameManager : MonoBehaviour
 {
@@ -24,8 +22,8 @@ public class GameManager : MonoBehaviour
     public Image playerHPBar;
     public TMP_Text goalCountText;
 
-    public List<GameObject> waypointList;
-    public List<GameObject> coverList;
+    public List<GameObject> waypointList = new List<GameObject>();
+    public List<GameObject> coverList = new List<GameObject>();
 
     [SerializeField] int goalCount;
     [SerializeField] int enemiesDefeated;
@@ -48,6 +46,18 @@ public class GameManager : MonoBehaviour
         playerTransform = playerController.transform;
         _defaultTimeScale = Time.timeScale;
         _isPaused = false;
+
+        GameObject[] waypoints = GameObject.FindGameObjectsWithTag("Waypoint");
+        foreach (var waypoint in waypoints)
+        {
+            waypointList.Add(waypoint);
+        }
+
+        GameObject[] covers = GameObject.FindGameObjectsWithTag("Cover");
+        foreach (var cover in covers)
+        {
+            coverList.Add(cover);
+        }
     }
 
     private void Update()
@@ -67,21 +77,6 @@ public class GameManager : MonoBehaviour
             {
                 UnpauseState();
             }
-        }
-    }
-
-    private void OnLevelWasLoaded(int level)
-    {
-        waypointList.Clear();
-        foreach (var waypoint in GameObject.FindGameObjectsWithTag("Waypoint"))
-        {
-            waypointList.Add(waypoint);
-        }
-
-        coverList.Clear();
-        foreach (var cover in GameObject.FindGameObjectsWithTag("Cover"))
-        {
-            coverList.Add(cover);
         }
     }
 

@@ -1,16 +1,30 @@
 using UnityEngine;
+using System.Collections.Generic;
+using System.Drawing;
 
 public class WaypointState : EnemyBaseState
 {
-    public WaypointState(EnemyContext context, EnemyMachine.EnemyState key, Transform[] waypoints, 
+    public WaypointState(EnemyContext context, EnemyMachine.EnemyState key, float waypointRange, 
         float walkSpeed) : base(context, key)
     {
         _index = 0;
-        _waypoints = waypoints;
         _walkSpeed = walkSpeed;
+        var position = _context.GetTransform().position;
+
+        // Add waypoints from GameManager that are within range
+        foreach (var point in GameManager.instance.waypointList)
+        {
+            var dist = Vector3.Distance(position, point.transform.position);
+            if (dist <= waypointRange)
+                _waypoints.Add(point.transform);
+        }
+
+        // Sort waypoints based on distance from enemy
+        _waypoints.Sort((a, b) => Vector3.Distance(a.position, position).CompareTo(Vector3.Distance(a.position, position)));
+        _context.GetMachine()._waypoints = _waypoints;
     }
 
-    private Transform[] _waypoints;
+    private List<Transform> _waypoints = new List<Transform>();
     private int _index;
     private readonly int WalkHash = Animator.StringToHash("Walk");
     private bool _waypointReached;
@@ -22,7 +36,7 @@ public class WaypointState : EnemyBaseState
         var animator = _context.GetAnimator();
 
         // Check if the waypoint is valid
-        if (_index >= _waypoints.Length)
+        if (_index >= _waypoints.Count)
         {
             _index = 0;
         }
