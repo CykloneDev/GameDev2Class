@@ -12,6 +12,7 @@ public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>, IDamage
         RandomIdle,
         FocusIdle,
         Waypoint,
+        Wander,
         Chase,
         Flee,
         Cover,
@@ -40,6 +41,7 @@ public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>, IDamage
 
     [SerializeField] private List<EnemyState> StatesUsed;   
     [SerializeField] private Transform[] _waypoints;
+    [SerializeField] private float _wanderRange;
     [SerializeField] private GameObject _bulletPrefab;
     [SerializeField] private Transform _shotPoint;
     [SerializeField] private float _attackRange;
@@ -102,6 +104,12 @@ public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>, IDamage
             _context.SetUseWaypoints(true);
             States.Add(EnemyState.Waypoint, new WaypointState(_context, EnemyMachine.EnemyState.Waypoint, 
                 _waypoints, _walkSpeed)); 
+        }
+
+        if(StatesUsed.Contains(EnemyState.Wander))
+        {
+            _context.SetUseWaypoints(false);
+            States.Add(EnemyState.Wander, new WanderState(_context, EnemyState.Wander, _wanderRange));
         }
 
         if(StatesUsed.Contains(EnemyState.Chase))
