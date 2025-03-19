@@ -169,7 +169,7 @@ public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>, IDamage
             // Die
             _context.SetDead(true);
             _dead = true;
-            GameManager.instance.UpdateGameGoal(-1);
+            GameManager.instance.OnEnemyDefeated();
             return;
         }
         _context.SetDamage(true);
