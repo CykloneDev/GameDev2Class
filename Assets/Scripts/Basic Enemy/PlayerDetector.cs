@@ -7,6 +7,9 @@ public class PlayerDetector : MonoBehaviour
     [SerializeField] private bool _playerDetected;
     [SerializeField] private bool _inRange;
     [SerializeField] private float _fov;
+    [SerializeField] private bool _insideFov;
+    [SerializeField] private float _lineOfSightRange;
+    [SerializeField] private bool _hasLOS;
 
     [SerializeField] private float angleToPlayer;
     [SerializeField] private Vector3 playerDir;
@@ -17,7 +20,6 @@ public class PlayerDetector : MonoBehaviour
 
     private void Start()
     {
-        _player = GameManager.instance.GetPlayerTransform();
         _playerDetected = false;
         _inRange = false;
         _currentForgetTime = 0;
@@ -30,21 +32,39 @@ public class PlayerDetector : MonoBehaviour
 
     private void Update()
     {
-        if(_inRange)
+        if(_player == null)
+            _player = GameManager.instance.GetPlayerTransform();
+
+        if (_inRange)
         {
             playerDir = _player.transform.position - transform.position;
-            angleToPlayer = Vector3.Angle(transform.forward, playerDir);
+            angleToPlayer = Vector3.Angle(playerDir, transform.forward);
+
+            Debug.DrawRay(transform.position, playerDir);
+
             RaycastHit hit;
-            Physics.Raycast(transform.position, playerDir, out hit, float.PositiveInfinity, lineOfSightMask);
-            if(angleToPlayer <= _fov
-                && hit.collider.CompareTag("Player"))
+            if(Physics.Raycast(transform.position, playerDir, out hit))
             {
-                _playerDetected = true;
+                if (hit.collider.CompareTag("Player"))
+                {
+                    _hasLOS = true;
+                }
+                else
+                {
+                    _hasLOS = false;
+                }
+            }
+            
+            if(angleToPlayer <= _fov)
+            {
+                _insideFov = true;
             }
             else
             {
-                _playerDetected = false;
+                _insideFov = false;
             }
+
+            _playerDetected = _insideFov | _hasLOS;
         }
 
         if (_playerDetected && !_inRange)
