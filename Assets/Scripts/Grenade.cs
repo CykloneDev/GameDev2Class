@@ -3,6 +3,8 @@ using UnityEngine;
 public class Grenade : MonoBehaviour
 {
 
+    [SerializeField] int _amount;
+
     public float delay;
     public float radius;
     public float force;
@@ -38,15 +40,20 @@ public class Grenade : MonoBehaviour
 
         //Blows up near by objects
         Collider[] collider = Physics.OverlapSphere(transform.position, radius);
-        foreach (Collider collider2 in collider)
+        foreach (Collider nearObject in collider)
         {
-            Rigidbody rb = collider2.GetComponent<Rigidbody>();
+            Rigidbody rb = nearObject.GetComponent<Rigidbody>();
             if (rb != null)
             {
                 rb.AddExplosionForce(force, transform.position, radius);//force for grenade explosion
             }
 
-
+            IDamage damage =  nearObject.GetComponent<IDamage>();
+            if (damage != null)
+            {
+                
+                damage.TakeDamage(_amount);
+            }
             Destroy(gameObject); //Removes the grenade after explosion
         }
 
