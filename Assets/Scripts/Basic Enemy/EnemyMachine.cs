@@ -38,9 +38,9 @@ public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>, IDamage
     [SerializeField] private float _chaseRefreshTime;
     [SerializeField] private float _focusIdleRotationSpeed;
     [SerializeField] private float _fleeRadius;
-
+    [SerializeField] private float _coverSearchRange;
+    [SerializeField] private float _minHideTime, _maxHideTime;
     [SerializeField] private List<EnemyState> StatesUsed;   
-    public List<Transform> _waypoints = new List<Transform>();
     [SerializeField] private float _waypointsRange;
     [SerializeField] private float _wanderRange;
     [SerializeField] private GameObject _bulletPrefab;
@@ -149,6 +149,13 @@ public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>, IDamage
             _context.SetUseAttack(true);
         }
 
+        if(StatesUsed.Contains(EnemyState.Cover))
+        {
+            States.Add(EnemyState.Cover, new CoverState(_context, EnemyState.Cover, _minHideTime, _maxHideTime, 
+                _coverSearchRange, _runSpeed));
+            _context.SetUseCover(true);
+        }
+
         CurrentState = States[EnemyState.RandomIdle];
     }
 
@@ -218,7 +225,11 @@ public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>, IDamage
 
     void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.green;
+        Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, _waypointsRange);
+
+
+        Gizmos.color = Color.black;
+        Gizmos.DrawWireSphere(transform.position, _coverSearchRange);
     }
 }

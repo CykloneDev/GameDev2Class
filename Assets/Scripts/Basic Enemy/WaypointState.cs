@@ -16,15 +16,14 @@ public class WaypointState : EnemyBaseState
         {
             var dist = Vector3.Distance(position, point.transform.position);
             if (dist <= waypointRange)
-                _waypoints.Add(point.transform);
+                _waypoints.Add(point.transform.position);
         }
 
         // Sort waypoints based on distance from enemy
-        _waypoints.Sort((a, b) => Vector3.Distance(a.position, position).CompareTo(Vector3.Distance(a.position, position)));
-        _context.GetMachine()._waypoints = _waypoints;
+        _waypoints.Sort((a, b) => a.sqrMagnitude.CompareTo(b.sqrMagnitude));
     }
 
-    private List<Transform> _waypoints = new List<Transform>();
+    private List<Vector3> _waypoints = new List<Vector3>();
     private int _index;
     private readonly int WalkHash = Animator.StringToHash("Walk");
     private bool _waypointReached;
@@ -47,7 +46,7 @@ public class WaypointState : EnemyBaseState
         agent.isStopped = false;
         agent.updatePosition = true;
         agent.updateRotation = true;
-        agent.SetDestination(_waypoints[_index].position);
+        agent.SetDestination(_waypoints[_index]);
         ++_index;
     }
 

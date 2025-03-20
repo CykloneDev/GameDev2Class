@@ -23,7 +23,6 @@ public class GameManager : MonoBehaviour
     public TMP_Text goalCountText;
 
     public List<GameObject> waypointList = new List<GameObject>();
-    public List<GameObject> coverList = new List<GameObject>();
 
     [SerializeField] int goalCount;
     [SerializeField] int enemiesDefeated;
@@ -51,12 +50,6 @@ public class GameManager : MonoBehaviour
         foreach (var waypoint in waypoints)
         {
             waypointList.Add(waypoint);
-        }
-
-        GameObject[] covers = GameObject.FindGameObjectsWithTag("Cover");
-        foreach (var cover in covers)
-        {
-            coverList.Add(cover);
         }
     }
 

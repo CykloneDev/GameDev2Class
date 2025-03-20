@@ -31,8 +31,11 @@ public class DamageState : EnemyBaseState
     public override EnemyMachine.EnemyState GetNextState()
     {
         var dead = _context.GetDead();
+        var useCover = _context.UseCover();
 
         if (dead) return EnemyMachine.EnemyState.Death;
+
+        if(useCover) return EnemyMachine.EnemyState.Cover;
 
         if (_currentFlinchTime > _flinchTime) return EnemyMachine.EnemyState.FocusIdle;
 
