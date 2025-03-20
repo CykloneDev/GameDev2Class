@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
 {
@@ -21,7 +22,11 @@ public class GameManager : MonoBehaviour
     public Image playerHPBar;
     public TMP_Text goalCountText;
 
+    public List<GameObject> waypointList = new List<GameObject>();
+    public List<GameObject> coverList = new List<GameObject>();
+
     [SerializeField] int goalCount;
+    [SerializeField] int enemiesDefeated;
 
     [SerializeField] int healAmount;
     [SerializeField] int speedIncrease;
@@ -41,6 +46,18 @@ public class GameManager : MonoBehaviour
         playerTransform = playerController.transform;
         _defaultTimeScale = Time.timeScale;
         _isPaused = false;
+
+        GameObject[] waypoints = GameObject.FindGameObjectsWithTag("Waypoint");
+        foreach (var waypoint in waypoints)
+        {
+            waypointList.Add(waypoint);
+        }
+
+        GameObject[] covers = GameObject.FindGameObjectsWithTag("Cover");
+        foreach (var cover in covers)
+        {
+            coverList.Add(cover);
+        }
     }
 
     private void Update()
@@ -111,6 +128,15 @@ public class GameManager : MonoBehaviour
             _isPaused = true;
         }
     }
+
+    public void OnEnemyDefeated()
+    {
+        ++enemiesDefeated;
+    }
+
+    public int EnemiesDefeated() => enemiesDefeated;
+
+    public void ResetDefeatedCount() { enemiesDefeated = 0; }
 
     public void OnPowerUpCollected(powerUps.PowerUpType type)
     {
