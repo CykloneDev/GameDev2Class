@@ -29,7 +29,7 @@ public class CoverState : EnemyBaseState
         var agent = _context.GetAgent();
         var transform = _context.GetPlayerDetector().transform;
 
-        var covers = Physics.OverlapSphere(transform.position, _searchRange, LayerMask.NameToLayer("Cover"));
+        var covers = GameManager.instance.coverList;
         var orderedByProximity = covers.OrderBy(c => Vector3.Distance(transform.position, c.transform.position)).ToArray();
 
         var length = orderedByProximity.Length;
