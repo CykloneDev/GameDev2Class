@@ -5,7 +5,7 @@ using UnityEngine.AI;
 public class EnemyContext
 {
     public EnemyContext(EnemyMachine machine, Transform transform, NavMeshAgent agent, Animator animator, Rigidbody rb, 
-        PlayerDetector playerDetector)
+        PlayerDetector playerDetector, float meleeTime)
     {
         _enemyMachine = machine;
         _transform = transform;
@@ -13,6 +13,7 @@ public class EnemyContext
         _rb = rb;   
         _animator = animator;
         _playerDetector = playerDetector;
+        _meleeTime = meleeTime;
     }
 
     [SerializeField] private EnemyMachine _enemyMachine;
@@ -21,13 +22,9 @@ public class EnemyContext
     [SerializeField] private Rigidbody _rb;
     [SerializeField] private Animator _animator;
     [SerializeField] private PlayerDetector _playerDetector;
-    [SerializeField] private bool _useWaypoints = false;
-    [SerializeField] private bool _useChase = false;
-    [SerializeField] private bool _useFlee = false;
-    [SerializeField] private bool _useAttack = false;
-    [SerializeField] private bool _useCover = false;
     [SerializeField] private bool _damage;
     [SerializeField] private bool _dead;
+    [SerializeField] private float _meleeTime;
 
     public EnemyMachine GetMachine() => _enemyMachine;
     public Transform GetTransform() => _transform;
@@ -35,18 +32,15 @@ public class EnemyContext
     public Rigidbody GetRigidBody() => _rb;
     public Animator GetAnimator() => _animator;
     public PlayerDetector GetPlayerDetector() => _playerDetector;
-    public bool UseWaypoints() => _useWaypoints;
-    public void SetUseWaypoints(bool useWaypoints) { _useWaypoints = useWaypoints; }
-    public bool UseChase() => _useChase;
-    public void SetUseChase(bool useChase) { _useChase = useChase; }
-    public bool UseFlee() => _useFlee;
-    public void SetUseFlee(bool useFlee) { _useFlee = useFlee; }
-    public bool UseAttack() => _useAttack;
-    public void SetUseAttack(bool useAttack) { _useAttack = useAttack; }
-    public bool UseCover() => _useCover;
-    public void SetUseCover(bool useCover) { _useCover = useCover; }
+    public bool UseWaypoints() => _enemyMachine.StatesUsed.Contains(EnemyMachine.EnemyState.Waypoint);
+    public bool UseChase() => _enemyMachine.StatesUsed.Contains(EnemyMachine.EnemyState.Chase);
+    public bool UseFlee() => _enemyMachine.StatesUsed.Contains(EnemyMachine.EnemyState.Flee);
+    public bool UseAttack() => _enemyMachine.StatesUsed.Contains(EnemyMachine.EnemyState.Attack);
+    public bool UseMelee() => _enemyMachine.StatesUsed.Contains(EnemyMachine.EnemyState.Melee);
+    public bool UseCover() => _enemyMachine.StatesUsed.Contains(EnemyMachine.EnemyState.Cover);
     public bool GetDamage() => _damage;
     public void SetDamage(bool damage) { _damage = damage; }    
     public bool GetDead() => _dead;
     public void SetDead(bool dead) { _dead = dead; }
+    public float GetMeleeTime() => _meleeTime;
 }

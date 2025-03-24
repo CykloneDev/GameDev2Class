@@ -9,6 +9,7 @@ public class Damage : MonoBehaviour
     [SerializeField] int _speed;
     [SerializeField] float _destroyTime;
     [SerializeField] float _damageFrequency;
+    [SerializeField] bool _singleDamage;
 
     bool _isDamaging;
 
@@ -36,7 +37,8 @@ public class Damage : MonoBehaviour
     }
 
     private void OnTriggerStay(Collider other)
-    {        
+    {
+        if (_singleDamage) return;
         if (other.isTrigger) return;
 
         IDamage dmg = other.GetComponent<IDamage>();

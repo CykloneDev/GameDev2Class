@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class CoverState : EnemyBaseState
 {
@@ -22,6 +23,7 @@ public class CoverState : EnemyBaseState
     private bool _reachedCover;
     private readonly int RunHash = Animator.StringToHash("Run");
     private readonly int CrouchHash = Animator.StringToHash("Crouch");
+    private List<Vector3> _points = new List<Vector3>();
 
     public override void EnterState()
     {
@@ -29,21 +31,27 @@ public class CoverState : EnemyBaseState
         var agent = _context.GetAgent();
         var transform = _context.GetPlayerDetector().transform;
 
-        var covers = GameManager.instance.coverList;
-        var orderedByProximity = covers.OrderBy(c => Vector3.Distance(transform.position, c.transform.position)).ToArray();
+        _points.Clear();
 
-        var length = orderedByProximity.Length;
+        foreach (var cover in GameManager.instance.coverList)
+        {
+            var dist = Vector3.Distance(cover.transform.position, cover.transform.position);
+            if (dist <= _searchRange)
+                _points.Add(cover.transform.position);
+        }
+
+        var length = _points.Count;
+        var point = _points[ Random.Range(0, _points.Count) ];
 
         if(length > 0)
         {
-            Debug.Log("NEAREST COVER " + orderedByProximity[0].transform.position.ToString());
             _hideTime = Random.Range(_minHideTime, _maxHideTime);
             agent.isStopped = false;
             agent.updatePosition = true;
             agent.updateRotation = true;
             agent.speed = _coverSpeed;
-            agent.stoppingDistance = 0;
-            agent.SetDestination(orderedByProximity[0].transform.position);
+            agent.stoppingDistance = 0.2f;
+            agent.SetDestination(point);
             animator.CrossFade(RunHash, 0.2f);
             _complete = false;
             _reachedCover = false;
