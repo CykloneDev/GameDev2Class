@@ -269,7 +269,7 @@ MonoBehaviour:
   _coverSearchRange: 0
   _minHideTime: 0
   _maxHideTime: 0
-  StatesUsed: 08000000040000000300000003000000
+  StatesUsed: 080000000400000003000000
   _waypointsRange: 0
   _wanderRange: 30
   _bulletPrefab: {fileID: 0}

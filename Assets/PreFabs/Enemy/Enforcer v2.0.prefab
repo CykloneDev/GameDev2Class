@@ -1905,7 +1905,7 @@ GameObject:
   - component: {fileID: 8525767224669865770}
   - component: {fileID: 2949518337980633269}
   m_Layer: 6
-  m_Name: Enforcer v1.0
+  m_Name: Enforcer v2.0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2048,7 +2048,7 @@ MonoBehaviour:
   _coverSearchRange: 0
   _minHideTime: 0
   _maxHideTime: 0
-  StatesUsed: 030000000400000007000000
+  StatesUsed: 03000000040000000700000006000000
   _waypointsRange: 0
   _wanderRange: 20
   _bulletPrefab: {fileID: 2385919531371957180, guid: 951b93cda898dbf409bfbbaac8f8211a, type: 3}
