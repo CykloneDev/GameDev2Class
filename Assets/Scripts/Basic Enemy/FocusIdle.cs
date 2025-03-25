@@ -52,6 +52,7 @@ public class FocusIdle : EnemyBaseState
         var attack = _context.UseAttack();
         var damage = _context.GetDamage();
         var dead = _context.GetDead();
+        var melee = _context.UseMelee();
 
         if (dead) return EnemyMachine.EnemyState.Death;
 
@@ -72,6 +73,11 @@ public class FocusIdle : EnemyBaseState
         if (attack)
         {
             if (distance <= _attackRange) return EnemyMachine.EnemyState.Attack;
+        }
+
+        if(melee)
+        {
+            if (distance <= _attackRange) return EnemyMachine.EnemyState.Melee;
         }
 
         return EnemyMachine.EnemyState.FocusIdle;

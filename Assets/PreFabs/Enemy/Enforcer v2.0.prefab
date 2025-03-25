@@ -1905,7 +1905,7 @@ GameObject:
   - component: {fileID: 8525767224669865770}
   - component: {fileID: 2949518337980633269}
   m_Layer: 6
-  m_Name: Enforcer v1.0
+  m_Name: Enforcer v2.0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2024,12 +2024,9 @@ MonoBehaviour:
     _rb: {fileID: 0}
     _animator: {fileID: 0}
     _playerDetector: {fileID: 0}
-    _useWaypoints: 0
-    _useChase: 0
-    _useFlee: 0
-    _useAttack: 0
     _damage: 0
     _dead: 0
+    _meleeTime: 0
   _model:
   - {fileID: 5798024747780639780}
   - {fileID: 7292057377770728544}
@@ -2048,8 +2045,11 @@ MonoBehaviour:
   _chaseRefreshTime: 0.25
   _focusIdleRotationSpeed: 180
   _fleeRadius: 10
-  StatesUsed: 000000000300000004000000
-  _waypoints: []
+  _coverSearchRange: 0
+  _minHideTime: 0
+  _maxHideTime: 0
+  StatesUsed: 03000000040000000700000006000000
+  _waypointsRange: 0
   _wanderRange: 20
   _bulletPrefab: {fileID: 2385919531371957180, guid: 951b93cda898dbf409bfbbaac8f8211a, type: 3}
   _shotPoint: {fileID: 4061223536346733139}
@@ -2058,8 +2058,10 @@ MonoBehaviour:
   _shotSpeed: 30
   _shotCount: 3
   _shotDamageAmount: 1
-  _shotRotationSpeed: 5
+  _attackRotationSpeed: 0
+  _meleeComboTime: 0
   _damageLayer: Enemy Bullet
+  _meleeDamage: {fileID: 0}
   currentState: 0
 --- !u!136 &2949518337980633269
 CapsuleCollider:

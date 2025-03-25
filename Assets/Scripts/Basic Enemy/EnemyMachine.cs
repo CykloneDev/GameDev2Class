@@ -9,7 +9,9 @@ public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>, IDamage
 {
     public enum EnemyState
     {
+        [InspectorName(null)]
         RandomIdle,
+        [InspectorName(null)]
         FocusIdle,
         Waypoint,
         Wander,
@@ -17,7 +19,10 @@ public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>, IDamage
         Flee,
         Cover,
         Attack,
+        Melee,
+        [InspectorName(null)]
         Damage,
+        [InspectorName(null)]
         Death
     }
 
@@ -38,9 +43,9 @@ public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>, IDamage
     [SerializeField] private float _chaseRefreshTime;
     [SerializeField] private float _focusIdleRotationSpeed;
     [SerializeField] private float _fleeRadius;
-
-    [SerializeField] private List<EnemyState> StatesUsed;   
-    public List<Transform> _waypoints = new List<Transform>();
+    [SerializeField] private float _coverSearchRange;
+    [SerializeField] private float _minHideTime, _maxHideTime;
+    public List<EnemyState> StatesUsed;   
     [SerializeField] private float _waypointsRange;
     [SerializeField] private float _wanderRange;
     [SerializeField] private GameObject _bulletPrefab;
@@ -50,12 +55,15 @@ public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>, IDamage
     [SerializeField] private int _shotSpeed;
     [SerializeField] private int _shotCount;
     [SerializeField] private int _shotDamageAmount;
-    [SerializeField] private float _shotRotationSpeed;
+    [SerializeField] private float _attackRotationSpeed;
+    [SerializeField] private float _meleeComboTime;
     [SerializeField] string _damageLayer;
+    [SerializeField] GameObject _meleeDamage;
     private float _currentShotTime;
 
     public EnemyState currentState;
 
+#region Unity Methods
     private void Awake()
     {
         _agent = GetComponent<NavMeshAgent>();
@@ -63,11 +71,11 @@ public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>, IDamage
         _rb = GetComponent<Rigidbody>();
         _playerDetector = GetComponentInChildren<PlayerDetector>();
     }
-
-    #region Unity Methods
+    
     void Start()
     {
-        _context = new EnemyContext(this, transform, _agent, _animator, _rb, _playerDetector);
+        _context = new EnemyContext(this, transform, _agent, _animator, _rb, 
+            _playerDetector, _meleeComboTime);
         InitializeStates();
 
         _currentHP = _maxHP;
@@ -99,54 +107,48 @@ public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>, IDamage
        // Debug.Log("Added Death State to " + gameObject.name);
         States.Add(EnemyState.Death, new DeathState(_context, EnemyState.Death));
 
+        // Debug.Log("Added Focus Idle State to " + gameObject.name);
+        States.Add(EnemyState.FocusIdle, new FocusIdle(_context, EnemyState.FocusIdle, _chaseStartRadius,
+                _focusIdleRotationSpeed, _attackRange));
+
         if (StatesUsed.Contains(EnemyState.Waypoint))
         {
             //Debug.Log("Added Waypoint State to " + gameObject.name);
-            _context.SetUseWaypoints(true);
             States.Add(EnemyState.Waypoint, new WaypointState(_context, EnemyMachine.EnemyState.Waypoint, 
                 _waypointsRange, _walkSpeed)); 
         }
 
         if(StatesUsed.Contains(EnemyState.Wander))
         {
-            _context.SetUseWaypoints(false);
             States.Add(EnemyState.Wander, new WanderState(_context, EnemyState.Wander, _wanderRange));
         }
 
         if(StatesUsed.Contains(EnemyState.Chase))
         {
-            // Must also use FocusIdle
-            if(!States.ContainsKey(EnemyState.FocusIdle))
-                States.Add(EnemyState.FocusIdle, new FocusIdle(_context, EnemyState.FocusIdle, _chaseStartRadius,
-                _focusIdleRotationSpeed, _attackRange));
-
             States.Add(EnemyState.Chase, new ChaseState(_context, EnemyState.Chase, _runSpeed,
                 _chaseStopRadius, _chaseRefreshTime));
-            _context.SetUseChase(true);
         }
 
         if(StatesUsed.Contains(EnemyState.Flee))
         {
-            // Must also use FocusIdle
-            if (!States.ContainsKey(EnemyState.FocusIdle))
-                States.Add(EnemyState.FocusIdle, new FocusIdle(_context, EnemyState.FocusIdle, _chaseStartRadius,
-                _focusIdleRotationSpeed, _attackRange));
-
             States.Add(EnemyState.Flee, new FleeState(_context, EnemyState.Flee, _runSpeed, _fleeRadius));
-            _context.SetUseFlee(true);
         }
 
         if(StatesUsed.Contains(EnemyState.Attack))
         {
-            // Must also use FocusIdle
-            if (!States.ContainsKey(EnemyState.FocusIdle))
-                States.Add(EnemyState.FocusIdle, new FocusIdle(_context, EnemyState.FocusIdle, _chaseStartRadius,
-                _focusIdleRotationSpeed, _attackRange));
-
             States.Add(EnemyState.Attack, new AttackState(_context, EnemyState.Attack, _bulletPrefab, _shotFrequency, 
-                _shotCount, _shotRotationSpeed, _damageLayer));
+                _shotCount, _attackRotationSpeed, _damageLayer));
+        }
 
-            _context.SetUseAttack(true);
+        if(StatesUsed.Contains(EnemyState.Cover))
+        {
+            States.Add(EnemyState.Cover, new CoverState(_context, EnemyState.Cover, _minHideTime, _maxHideTime, 
+                _coverSearchRange, _runSpeed));
+        }
+
+        if (StatesUsed.Contains(EnemyState.Melee))
+        {           
+            States.Add(EnemyState.Melee, new MeleeState(_context, EnemyState.Melee, _attackRotationSpeed));
         }
 
         CurrentState = States[EnemyState.RandomIdle];
@@ -187,6 +189,18 @@ public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>, IDamage
         StartCoroutine(FlashGreen());
     }
 
+    IEnumerator HitboxRoutine()
+    {
+        _meleeDamage.SetActive(true);
+        yield return new WaitForSeconds(0.1f);
+        _meleeDamage.SetActive(false);
+    }
+
+    void ActivateHitbox()
+    {
+        StartCoroutine(HitboxRoutine());
+    }
+
     IEnumerator FlashRed()
     {
         foreach(Renderer rend in _model)
@@ -218,7 +232,11 @@ public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>, IDamage
 
     void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.green;
+        Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, _waypointsRange);
+
+
+        Gizmos.color = Color.black;
+        Gizmos.DrawWireSphere(transform.position, _coverSearchRange);
     }
 }
