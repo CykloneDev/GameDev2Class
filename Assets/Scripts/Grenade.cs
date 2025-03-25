@@ -51,11 +51,15 @@ public class Grenade : MonoBehaviour
             IDamage damage =  nearObject.GetComponent<IDamage>();
             if (damage != null)
             {
-                
-                damage.TakeDamage(_amount);
+                   damage.TakeDamage(_amount);
             }
-            Destroy(gameObject); //Removes the grenade after explosion
+           
+            Destructable dest = nearObject.GetComponent<Destructable>();
+            if (dest != null)
+            {
+                dest.Break();
+            }
         }
-
+        Destroy(gameObject); //Removes the grenade after explosion
     }
 }
