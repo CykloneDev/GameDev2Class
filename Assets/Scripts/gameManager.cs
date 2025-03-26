@@ -20,7 +20,9 @@ public class GameManager : MonoBehaviour
     public GameObject playerDamageScreen;
     public GameObject playerHealScreen;
     public Image playerHPBar;
+    public Image playerWPBar;
     public TMP_Text goalCountText;
+    public TMP_Text currentWeaponName;
 
     public List<GameObject> waypointList = new List<GameObject>();
     public List<GameObject> coverList = new List<GameObject>();

@@ -57,10 +57,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 175d66566d133cd4eaff72109811afce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _amount: 20
+  _amount: 50
   delay: 4
-  radius: 5
-  force: 300
+  radius: 10
+  force: 1000
   explodeEffect: {fileID: 122526, guid: c2aebf243eef74a488f4ddc6851ecba4, type: 3}
 --- !u!23 &170617581069175451
 MeshRenderer:

@@ -6212,6 +6212,7 @@ MonoBehaviour:
   weaponList:
   - {fileID: 11400000, guid: fcd7ec34e4bcdc74592c699e78b66f22, type: 2}
   _weaponIndex: 0
+  _maxWeaponEnergy: 100
 --- !u!143 &3098212003815422022
 CharacterController:
   m_ObjectHideFlags: 0
@@ -6231,7 +6232,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 3
   m_Height: 2
-  m_Radius: 0.27
+  m_Radius: 0.43
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08

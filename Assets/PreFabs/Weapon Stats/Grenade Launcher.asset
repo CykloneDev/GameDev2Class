@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77ae202340d000c449403344a8de304a, type: 3}
   m_Name: Grenade Launcher
   m_EditorClassIdentifier: 
-  model: {fileID: 100000, guid: a97da33f506743140bba5d7a279179ed, type: 3}
-  damage: 20
+  model: {fileID: 7393462043608628937, guid: 214c8cffd87478b49939894ee930af96, type: 3}
+  damage: 30
   shotEnergy: 30
   shotDistance: 0
   shotRate: 3
-  shotSpeed: 250
+  shotSpeed: 1000
   bulletPrefab: {fileID: 5956526080442034811, guid: 61116748752c34545ad0a13dfde135b2, type: 3}
   hitPrefab: {fileID: 19860734, guid: c2aebf243eef74a488f4ddc6851ecba4, type: 3}
   muzzleFlash: {fileID: 19800058, guid: 6d0a138a25f696245ae2c42ac687a5b7, type: 3}

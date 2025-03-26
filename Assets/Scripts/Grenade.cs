@@ -62,4 +62,13 @@ public class Grenade : MonoBehaviour
         }
         Destroy(gameObject); //Removes the grenade after explosion
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        var damageable = collision.collider.GetComponent<IDamage>();
+        if(damageable != null)
+        {
+            Explode();
+        }
+    }
 }

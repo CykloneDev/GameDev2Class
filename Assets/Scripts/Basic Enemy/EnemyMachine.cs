@@ -95,24 +95,19 @@ public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>, IDamage
     {
         States = new Dictionary<EnemyState, BaseState<EnemyState>>();
 
-        //Debug.Log("Added Idle State to " + gameObject.name);
         States.Add(EnemyState.RandomIdle, new IdleState(_context, EnemyState.RandomIdle,
             _minRandomWait, _maxRandomWait));
 
-       // Debug.Log("Added Damage State to " + gameObject.name);
         States.Add(EnemyState.Damage, new DamageState(_context, EnemyState.Damage, .5f));
 
 
-       // Debug.Log("Added Death State to " + gameObject.name);
         States.Add(EnemyState.Death, new DeathState(_context, EnemyState.Death));
 
-        // Debug.Log("Added Focus Idle State to " + gameObject.name);
         States.Add(EnemyState.FocusIdle, new FocusIdle(_context, EnemyState.FocusIdle, _chaseStartRadius,
                 _focusIdleRotationSpeed, _attackRange));
 
         if (StatesUsed.Contains(EnemyState.Waypoint))
         {
-            //Debug.Log("Added Waypoint State to " + gameObject.name);
             States.Add(EnemyState.Waypoint, new WaypointState(_context, EnemyMachine.EnemyState.Waypoint, 
                 _waypointsRange, _walkSpeed)); 
         }
@@ -180,7 +175,7 @@ public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>, IDamage
             GameManager.instance.OnEnemyDefeated();
             if (_deathEffect != null)
                 Instantiate(_deathEffect, _deathPoint.position, _deathPoint.rotation);
-            GetComponent<CapsuleCollider>().enabled = false;
+            gameObject.layer = LayerMask.NameToLayer("Dead");
             return;
         }
         _context.SetDamage(true);

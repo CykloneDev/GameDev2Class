@@ -18,12 +18,15 @@ public class PlayerWeaponController : MonoBehaviour
 
     [SerializeField] List<WeaponStats> weaponList = new List<WeaponStats>();
     [SerializeField] int _weaponIndex;
+    [SerializeField] int _maxWeaponEnergy;
+    float _currentWeaponEnergy;
 
     private void Start()
     {
         _source = GetComponent<AudioSource>();
         _camera = Camera.main;
         ChangeGun();
+        _currentWeaponEnergy = _maxWeaponEnergy;
     }
 
     private void Update()
@@ -42,21 +45,36 @@ public class PlayerWeaponController : MonoBehaviour
         }
 
         SelectGun();
+
+
+        if (_currentWeaponEnergy < _maxWeaponEnergy)
+        {
+            _currentWeaponEnergy += Time.deltaTime * (_maxWeaponEnergy * .02f);
+            UpdatePlayerUI();
+
+            if (_currentWeaponEnergy > _maxWeaponEnergy)
+                _currentWeaponEnergy = _maxWeaponEnergy;
+        }
     }
 
     void Shoot()
     {
+        var currentWeapon = weaponList[_weaponIndex];
+        if (_currentWeaponEnergy < currentWeapon.shotEnergy) return;
+        _currentWeaponEnergy -= currentWeapon.shotEnergy;
+        UpdatePlayerUI();
         _shootTimer = 0;
-        var index = Random.Range(0, weaponList[_weaponIndex].shotSounds.Length);
-        _source.PlayOneShot(weaponList[_weaponIndex].shotSounds[index]);
+
+        var index = Random.Range(0, currentWeapon.shotSounds.Length);
+        _source.PlayOneShot(currentWeapon.shotSounds[index]);
         muzzleFlash.Play();
 
-        var prefab = weaponList[_weaponIndex].bulletPrefab;
-        var damage = weaponList[_weaponIndex].damage;
+        var prefab = currentWeapon.bulletPrefab;
+        var damage = currentWeapon.damage;
 
-        if (weaponList[_weaponIndex].useProjectile)
+        if (currentWeapon.useProjectile)
         {            
-            var projectileSpeed = weaponList[_weaponIndex].shotSpeed;
+            var projectileSpeed = currentWeapon.shotSpeed;
             var bullet = Instantiate(prefab, _shotPoint.position, _shotPoint.rotation);
             bullet.layer = LayerMask.NameToLayer("Player Bullet");
             bullet.GetComponent<Rigidbody>().AddForce(projectileSpeed * _camera.transform.forward);
@@ -76,7 +94,7 @@ public class PlayerWeaponController : MonoBehaviour
                     target.TakeDamage(damage);
                 }
 
-                var hitEffect = weaponList[_weaponIndex].hitPrefab;
+                var hitEffect = currentWeapon.hitPrefab;
                 Instantiate(hitEffect, hit.point, Quaternion.Euler(hit.normal));
             }
         }
@@ -125,5 +143,10 @@ public class PlayerWeaponController : MonoBehaviour
 
         _gunModel.GetComponent<MeshFilter>().sharedMesh = gun.model.GetComponent<MeshFilter>().sharedMesh;
         _gunModel.GetComponent<MeshRenderer>().sharedMaterial = gun.model.GetComponent<MeshRenderer>().sharedMaterial;
+        GameManager.instance.currentWeaponName.text = weaponList[_weaponIndex].name;
+    }
+    public void UpdatePlayerUI()
+    {
+        GameManager.instance.playerWPBar.fillAmount = (float)_currentWeaponEnergy / _maxWeaponEnergy;
     }
 }
