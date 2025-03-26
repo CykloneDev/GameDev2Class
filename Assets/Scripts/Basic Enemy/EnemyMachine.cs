@@ -176,6 +176,7 @@ public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>, IDamage
             if (_deathEffect != null)
                 Instantiate(_deathEffect, _deathPoint.position, _deathPoint.rotation);
             gameObject.layer = LayerMask.NameToLayer("Dead");
+            Destroy(gameObject, 3f);
             return;
         }
         _context.SetDamage(true);
