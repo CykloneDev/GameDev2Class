@@ -6211,8 +6211,6 @@ MonoBehaviour:
   muzzle: {fileID: 153662632711651113}
   weaponList:
   - {fileID: 11400000, guid: fcd7ec34e4bcdc74592c699e78b66f22, type: 2}
-  - {fileID: 11400000, guid: ca775a21ff5e4c1438623784c8d3a069, type: 2}
-  - {fileID: 11400000, guid: 8e8fe191afdb408469daf395a17b4019, type: 2}
   _weaponIndex: 0
 --- !u!143 &3098212003815422022
 CharacterController:

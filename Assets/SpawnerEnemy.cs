@@ -1,0 +1,109 @@
+using System.Collections;
+using UnityEngine;
+
+public class SpawnerEnemy : MonoBehaviour, IDamage
+{
+    [SerializeField] int hp;
+    [SerializeField] GameObject deathEffect;
+    [SerializeField] GameObject enemyToSpawn;
+    [SerializeField] Transform spawnPoint;
+    [SerializeField] float spawnTime;
+    float currentSpawnTime;
+    Vector3 point;
+    bool spawn;
+
+    public void HealDamage(int amount)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void TakeDamage(int damage)
+    {
+        hp -= damage;
+        if(hp <= 0)
+        {
+            spawn = false;
+            StartCoroutine(SpawnEffect());
+            Destroy(gameObject, 8 * 0.26f);
+        }
+    }
+
+    IEnumerator SpawnEffect()
+    {
+        point = new Vector3(
+            Random.Range(-1f, 1f),
+            Random.Range(-1f, 1f),
+            Random.Range(-1f, 1f));
+        Instantiate(deathEffect, point, Quaternion.identity);
+        yield return new WaitForSeconds(0.25f);
+
+        point = new Vector3(
+            Random.Range(-1f, 1f),
+            Random.Range(-1f, 1f),
+            Random.Range(-1f, 1f));
+        Instantiate(deathEffect, point, Quaternion.identity);
+        yield return new WaitForSeconds(0.25f);
+
+        point = new Vector3(
+            Random.Range(-1f, 1f),
+            Random.Range(-1f, 1f),
+            Random.Range(-1f, 1f));
+        Instantiate(deathEffect, point, Quaternion.identity);
+        yield return new WaitForSeconds(0.25f);
+
+        point = new Vector3(
+            Random.Range(-1f, 1f),
+            Random.Range(-1f, 1f),
+            Random.Range(-1f, 1f));
+        Instantiate(deathEffect, point, Quaternion.identity);
+        yield return new WaitForSeconds(0.25f);
+
+        point = new Vector3(
+            Random.Range(-1f, 1f),
+            Random.Range(-1f, 1f),
+            Random.Range(-1f, 1f));
+        Instantiate(deathEffect, point, Quaternion.identity);
+        yield return new WaitForSeconds(0.25f);
+
+        point = new Vector3(
+            Random.Range(-1f, 1f),
+            Random.Range(-1f, 1f),
+            Random.Range(-1f, 1f));
+        Instantiate(deathEffect, point, Quaternion.identity);
+        yield return new WaitForSeconds(0.25f);
+
+        point = new Vector3(
+            Random.Range(-1f, 1f),
+            Random.Range(-1f, 1f),
+            Random.Range(-1f, 1f));
+        Instantiate(deathEffect, point, Quaternion.identity);
+        yield return new WaitForSeconds(0.25f);
+
+        point = new Vector3(
+            Random.Range(-1f, 1f),
+            Random.Range(-1f, 1f),
+            Random.Range(-1f, 1f));
+        Instantiate(deathEffect, point, Quaternion.identity);
+        yield return new WaitForSeconds(0.25f);
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if(spawn)
+        {
+            currentSpawnTime += Time.deltaTime;
+            if(currentSpawnTime >= spawnTime)
+            {
+                Instantiate(enemyToSpawn, spawnPoint.position, spawnPoint.rotation);
+                currentSpawnTime = 0;
+            }
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+            spawn = true;
+    }
+}
