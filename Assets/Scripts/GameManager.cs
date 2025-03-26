@@ -2,10 +2,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
+using System.Collections;
+using System;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+    public static powerUps timer;
     public playerController playerController;
     Transform playerTransform;
 
@@ -19,6 +22,9 @@ public class GameManager : MonoBehaviour
     public GameObject lossMenu;
     public GameObject playerDamageScreen;
     public GameObject playerHealScreen;
+    public GameObject playerReticle;
+   
+
     public Image playerHPBar;
     public Image playerWPBar;
     public TMP_Text goalCountText;
@@ -45,6 +51,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         playerController = GameObject.FindWithTag("Player").GetComponent<playerController>();
+        playerReticle = GameObject.Find("Player reticle");
         playerTransform = playerController.transform;
         _defaultTimeScale = Time.timeScale;
         _isPaused = false;
@@ -90,18 +97,26 @@ public class GameManager : MonoBehaviour
     {
         _isPaused = true;
         Time.timeScale = 0;
+        hideReticle();
         Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.Confined; 
+        Cursor.lockState = CursorLockMode.Confined;
+        
+
     }
 
     public void UnpauseState()
     {
         _isPaused = false;
+        
         Time.timeScale = _defaultTimeScale;
+        showReticle();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         activeMenu.SetActive(false);
         activeMenu = null;
+       
+
+
     }
 
     public void Lose()
@@ -133,6 +148,22 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    void showReticle()
+    {
+        if (playerReticle != null)
+        {
+            playerReticle.SetActive(true);
+        }
+    }
+
+    void hideReticle()
+    {
+        if (playerReticle != null)
+        {
+            playerReticle.SetActive(false);
+        }
+    }
+
     public void OnEnemyDefeated()
     {
         ++enemiesDefeated;
@@ -144,8 +175,15 @@ public class GameManager : MonoBehaviour
 
     public void OnPowerUpCollected(powerUps.PowerUpType type)
     {
+        if(playerTransform == null)
+        {
+            Debug.LogError("Player transform is null in gamemanager");
+            return;
+        }
+
         if (playerTransform.TryGetComponent(out playerController player))
         {
+
             switch (type)
             {
                 case powerUps.PowerUpType.givehealth:
@@ -154,6 +192,7 @@ public class GameManager : MonoBehaviour
                     Debug.Log("Health has been added to the player");
                     break;
                 case powerUps.PowerUpType.speedboost:
+                   //StartCoroutine(ApplyTimedEffectF(player.AddSpeed, speedIncrease, timer.duration)); //for timer
                     player.AddSpeed(speedIncrease);
                     Debug.Log("Speedboost has been added to the player");
                     break;
@@ -162,14 +201,17 @@ public class GameManager : MonoBehaviour
                     Debug.Log("Damageboost has been added to the player");
                     break;
                 case powerUps.PowerUpType.increasejump:
+                   //  StartCoroutine(ApplyTimedEffect(player.SetJumps, jumpIncrease, timer.duration));
                     player.SetJumps(jumpIncrease);
                     Debug.Log("Increasejumps has been added to the player");
                     break;
                 case powerUps.PowerUpType.gravity:
+                   // StartCoroutine(ApplyTimedEffect(player.SetGravity, gravityIncrease, timer.duration));
                     player.SetGravity(gravityIncrease);
                     Debug.Log("Gravity has been changed");
                     break;
                 case powerUps.PowerUpType.increasemaxhealth:
+                   // StartCoroutine(ApplyTimedEffect(player.SetMaxHP, maxHPIncrease, timer.duration));
                     player.SetMaxHP(maxHPIncrease);
                     player.UpdatePlayerUI();
                     Debug.Log("MaxHealth has been increased!");
@@ -183,6 +225,19 @@ public class GameManager : MonoBehaviour
         {
             Debug.LogWarning("Player component not found on playerTransform!");
         }
+    }
 
+    private IEnumerator ApplyTimedEffectF(Action<float> effect, float amount, float duration) //Float coroutine
+    {
+        effect(amount); // Apply the effect
+        yield return new WaitForSeconds(duration);
+        effect(-amount); // Revert the effect
+    }
+
+    private IEnumerator ApplyTimedEffect(Action<int> effect, int amount, float duration) //Int couroutine
+    {
+        effect(amount); // Apply the effect
+        yield return new WaitForSeconds(duration);
+        effect(-amount); // Revert the effect
     }
 }

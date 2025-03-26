@@ -145,6 +145,8 @@ public class PlayerWeaponController : MonoBehaviour
         _gunModel.GetComponent<MeshRenderer>().sharedMaterial = gun.model.GetComponent<MeshRenderer>().sharedMaterial;
         GameManager.instance.currentWeaponName.text = weaponList[_weaponIndex].name;
     }
+
+
     public void UpdatePlayerUI()
     {
         GameManager.instance.playerWPBar.fillAmount = (float)_currentWeaponEnergy / _maxWeaponEnergy;

@@ -8,7 +8,7 @@ public class powerUps : MonoBehaviour
     public PowerUpType powerupType;
 
 
-    [SerializeField] private float duration = 5f; // Set the duration of the powerUp (if one is possibly added)
+    [Range(1, 25)][SerializeField] public float duration = 5f; // Set the duration of the powerUp s
 
 
 
