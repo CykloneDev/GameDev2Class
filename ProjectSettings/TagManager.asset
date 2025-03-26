@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Waypoint
   - Cover
+  - Enemy
   layers:
   - Default
   - TransparentFX
