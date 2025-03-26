@@ -6213,6 +6213,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: fcd7ec34e4bcdc74592c699e78b66f22, type: 2}
   _weaponIndex: 0
   _maxWeaponEnergy: 100
+  _rechargeRate: 0.05
 --- !u!143 &3098212003815422022
 CharacterController:
   m_ObjectHideFlags: 0
