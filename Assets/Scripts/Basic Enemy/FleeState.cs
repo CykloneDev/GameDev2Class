@@ -35,9 +35,7 @@ public class FleeState : EnemyBaseState
     {
         var agent = _context.GetAgent();
 
-        agent.SetDestination(fleePoint);
-
-        if (agent.remainingDistance <= 0.3f)
+        if (agent.remainingDistance <= agent.stoppingDistance)
         {
             _arrived = true;
         }

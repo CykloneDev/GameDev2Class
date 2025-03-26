@@ -74,7 +74,7 @@ public class AttackState : EnemyBaseState
 
     public override EnemyMachine.EnemyState GetNextState()
     {
-        if (!_shooting) return EnemyMachine.EnemyState.FocusIdle;
+        if (!_shooting) return EnemyMachine.EnemyState.Cover;
 
         return EnemyMachine.EnemyState.Attack;
     }

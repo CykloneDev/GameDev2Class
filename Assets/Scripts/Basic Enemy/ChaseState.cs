@@ -30,6 +30,7 @@ public class ChaseState : EnemyBaseState
         agent.isStopped = false;
         agent.updatePosition = true;
         agent.updateRotation = true;
+        agent.stoppingDistance = 0.25f;
         agent.SetDestination(_playerTransform.position);
         _currentNavRefresh = 0;
         _inRange = false;

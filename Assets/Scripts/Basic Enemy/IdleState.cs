@@ -57,6 +57,7 @@ public class IdleState : EnemyBaseState
         if (damage) return EnemyMachine.EnemyState.Damage;
 
         if (_waitTime < 0 && waypoints) return EnemyMachine.EnemyState.Waypoint;
+        else if (_waitTime < 0 && !waypoints) return EnemyMachine.EnemyState.Wander;
 
         if(playerDetected)
         {

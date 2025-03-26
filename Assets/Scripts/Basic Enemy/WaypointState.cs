@@ -1,16 +1,29 @@
 using UnityEngine;
+using System.Collections.Generic;
+using System.Drawing;
 
 public class WaypointState : EnemyBaseState
 {
-    public WaypointState(EnemyContext context, EnemyMachine.EnemyState key, Transform[] waypoints, 
+    public WaypointState(EnemyContext context, EnemyMachine.EnemyState key, float waypointRange, 
         float walkSpeed) : base(context, key)
     {
         _index = 0;
-        _waypoints = waypoints;
         _walkSpeed = walkSpeed;
+        var position = _context.GetTransform().position;
+
+        // Add waypoints from GameManager that are within range
+        foreach (var point in GameManager.instance.waypointList)
+        {
+            var dist = Vector3.Distance(position, point.transform.position);
+            if (dist <= waypointRange)
+                _waypoints.Add(point.transform.position);
+        }
+
+        // Sort waypoints based on distance from enemy
+        _waypoints.Sort((a, b) => a.sqrMagnitude.CompareTo(b.sqrMagnitude));
     }
 
-    private Transform[] _waypoints;
+    private List<Vector3> _waypoints = new List<Vector3>();
     private int _index;
     private readonly int WalkHash = Animator.StringToHash("Walk");
     private bool _waypointReached;
@@ -22,7 +35,7 @@ public class WaypointState : EnemyBaseState
         var animator = _context.GetAnimator();
 
         // Check if the waypoint is valid
-        if (_index >= _waypoints.Length)
+        if (_index >= _waypoints.Count)
         {
             _index = 0;
         }
@@ -33,7 +46,7 @@ public class WaypointState : EnemyBaseState
         agent.isStopped = false;
         agent.updatePosition = true;
         agent.updateRotation = true;
-        agent.SetDestination(_waypoints[_index].position);
+        agent.SetDestination(_waypoints[_index]);
         ++_index;
     }
 
