@@ -48,7 +48,7 @@ public class FocusIdle : EnemyBaseState
         var distance = Vector3.Distance(_context.GetTransform().position, _playerTransform.position);
         var playerDetected = _context.GetPlayerDetector().PlayerDetected();
         var chase = _context.UseChase();
-        var flee = _context.UseFlee();
+        var reposition = _context.UseReposition();
         var attack = _context.UseAttack();
         var damage = _context.GetDamage();
         var dead = _context.GetDead();
@@ -65,9 +65,9 @@ public class FocusIdle : EnemyBaseState
             if (distance >= _radius) return EnemyMachine.EnemyState.Chase;
         }
 
-        if(flee)
+        if(reposition)
         {
-            if (distance <= _radius) return EnemyMachine.EnemyState.Flee;
+            if (distance <= _radius) return EnemyMachine.EnemyState.Reposition;
         }
 
         if (attack)

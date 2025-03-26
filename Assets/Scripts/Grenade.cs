@@ -39,7 +39,7 @@ public class Grenade : MonoBehaviour
         Instantiate(explodeEffect, transform.position, transform.rotation);   //Shows explosion effect
 
         //Blows up near by objects
-        Collider[] collider = Physics.OverlapSphere(transform.position, radius);
+        Collider[] collider = Physics.OverlapSphere(transform.position, radius, LayerMask.NameToLayer("Player Bullet"));
         foreach (Collider nearObject in collider)
         {
             Rigidbody rb = nearObject.GetComponent<Rigidbody>();

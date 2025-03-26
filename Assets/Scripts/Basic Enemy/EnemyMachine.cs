@@ -16,7 +16,7 @@ public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>, IDamage
         Waypoint,
         Wander,
         Chase,
-        Flee,
+        Reposition,
         Cover,
         Attack,
         Melee,
@@ -42,13 +42,14 @@ public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>, IDamage
     [SerializeField] private float _chaseStartRadius;
     [SerializeField] private float _chaseRefreshTime;
     [SerializeField] private float _focusIdleRotationSpeed;
-    [SerializeField] private float _fleeRadius;
+    [SerializeField] private float _repositionRadius;
     [SerializeField] private float _coverSearchRange;
     [SerializeField] private float _minHideTime, _maxHideTime;
     public List<EnemyState> StatesUsed;   
     [SerializeField] private float _waypointsRange;
     [SerializeField] private float _wanderRange;
     [SerializeField] private GameObject _bulletPrefab;
+    [SerializeField] private ParticleSystem _shotEffect;
     [SerializeField] private Transform _shotPoint;
     [SerializeField] private float _attackRange;
     [SerializeField] private float _shotFrequency;
@@ -59,6 +60,8 @@ public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>, IDamage
     [SerializeField] private float _meleeComboTime;
     [SerializeField] string _damageLayer;
     [SerializeField] GameObject _meleeDamage;
+    [SerializeField] GameObject _deathEffect;
+    [SerializeField] private Transform _deathPoint;
     private float _currentShotTime;
 
     public EnemyState currentState;
@@ -129,9 +132,9 @@ public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>, IDamage
                 _chaseStopRadius, _chaseRefreshTime));
         }
 
-        if(StatesUsed.Contains(EnemyState.Flee))
+        if(StatesUsed.Contains(EnemyState.Reposition))
         {
-            States.Add(EnemyState.Flee, new FleeState(_context, EnemyState.Flee, _runSpeed, _fleeRadius));
+            States.Add(EnemyState.Reposition, new RepositionState(_context, EnemyState.Reposition, _runSpeed, _repositionRadius));
         }
 
         if(StatesUsed.Contains(EnemyState.Attack))
@@ -154,8 +157,14 @@ public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>, IDamage
         CurrentState = States[EnemyState.RandomIdle];
     }
 
+    public bool HasState(EnemyState enemyState)
+    {
+        return States.ContainsKey(enemyState);
+    }
+
     public void Shoot()
     {
+        //_shotEffect?.Play();
         var bullet = Instantiate(_bulletPrefab, _shotPoint.position, _context.GetTransform().rotation);
         bullet.layer = LayerMask.NameToLayer(_damageLayer);
         bullet.GetComponent<Damage>().InitBullet(_shotDamageAmount, _shotSpeed, 3f);
@@ -173,6 +182,9 @@ public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>, IDamage
             _context.SetDead(true);
             _dead = true;
             GameManager.instance.OnEnemyDefeated();
+            if (_deathEffect != null)
+                Instantiate(_deathEffect, _deathPoint.position, _deathPoint.rotation);
+
             return;
         }
         _context.SetDamage(true);

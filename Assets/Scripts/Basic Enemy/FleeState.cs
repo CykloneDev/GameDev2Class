@@ -1,20 +1,20 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public class FleeState : EnemyBaseState
+public class RepositionState : EnemyBaseState
 {
-    public FleeState(EnemyContext context, EnemyMachine.EnemyState key, 
-        float fleeSpeed, float fleeRadius) : base(context, key)
+    public RepositionState(EnemyContext context, EnemyMachine.EnemyState key, 
+        float repositionSpeed, float repositionRadius) : base(context, key)
     {
-        _fleeSpeed = fleeSpeed;
-        _fleeRadius = fleeRadius;
+        _repositionSpeed = repositionSpeed;
+        _repositionRadius = repositionRadius;
     }
 
     private readonly int RunHash = Animator.StringToHash("Run");
-    private float _fleeSpeed;
-    private float _fleeRadius;
+    private float _repositionSpeed;
+    private float _repositionRadius;
     private bool _arrived;
-    private Vector3 fleePoint;
+    private Vector3 repositionPoint;
 
     public override void EnterState()
     {
@@ -24,10 +24,10 @@ public class FleeState : EnemyBaseState
         agent.isStopped = false;
         agent.updatePosition = true;
         agent.updateRotation = true;
-        agent.speed = _fleeSpeed;
+        agent.speed = _repositionSpeed;
         _arrived = false;
-        fleePoint = GetValidPoint();
-        agent.SetDestination(fleePoint);
+        repositionPoint = GetValidPoint();
+        agent.SetDestination(repositionPoint);
         animator.CrossFade(RunHash, 0.02f);
     }
 
@@ -52,27 +52,27 @@ public class FleeState : EnemyBaseState
 
         if (_arrived) return EnemyMachine.EnemyState.FocusIdle;
 
-        return EnemyMachine.EnemyState.Flee;
+        return EnemyMachine.EnemyState.Reposition;
     }
 
-    Vector3 GetValidPoint() // Will return a random point within _fleeRadius
+    Vector3 GetValidPoint() // Will return a random point within _repositionRadius
     {
         var position = _context.GetTransform().position;
         Vector3 result = new Vector3(
-            Random.Range(-_fleeRadius, _fleeRadius) + position.x, 
+            Random.Range(-_repositionRadius, _repositionRadius) + position.x, 
             position.y,
-            Random.Range(-_fleeRadius, _fleeRadius) + position.z);
+            Random.Range(-_repositionRadius, _repositionRadius) + position.z);
 
-        Debug.Log("Flee position: " + result.ToString());
+        Debug.Log("Reposition position: " + result.ToString());
         NavMeshHit hit;
         while (!NavMesh.SamplePosition(result, out hit, 1f, LayerMask.NameToLayer("Navigation")))
         {
 
             result = new Vector3(
-                Random.Range(-_fleeRadius, _fleeRadius) + position.x,
+                Random.Range(-_repositionRadius, _repositionRadius) + position.x,
                 position.y,
-                Random.Range(-_fleeRadius, _fleeRadius) + position.z);
-            Debug.Log("New Flee position: " + result.ToString());
+                Random.Range(-_repositionRadius, _repositionRadius) + position.z);
+            Debug.Log("New Reposition position: " + result.ToString());
         }
 
         return hit.position;

@@ -134,6 +134,7 @@ Transform:
   - {fileID: 165131736336063476}
   - {fileID: 8528096625130063673}
   - {fileID: 9006028253216473459}
+  - {fileID: 4290345501292384079}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &5090722932631067108
@@ -265,7 +266,7 @@ MonoBehaviour:
   _chaseStartRadius: 1
   _chaseRefreshTime: 0.2
   _focusIdleRotationSpeed: 0
-  _fleeRadius: 0
+  _repositionRadius: 0
   _coverSearchRange: 0
   _minHideTime: 0
   _maxHideTime: 0
@@ -273,6 +274,7 @@ MonoBehaviour:
   _waypointsRange: 0
   _wanderRange: 30
   _bulletPrefab: {fileID: 0}
+  _shotEffect: {fileID: 0}
   _shotPoint: {fileID: 0}
   _attackRange: 1.25
   _shotFrequency: 0
@@ -283,6 +285,8 @@ MonoBehaviour:
   _meleeComboTime: 4
   _damageLayer: 
   _meleeDamage: {fileID: 2023994816472464133}
+  _deathEffect: {fileID: 4873982171288041925, guid: ceaf4aab86caf6c45bd6d1e66ed0e4e9, type: 3}
+  _deathPoint: {fileID: 4290345501292384079}
   currentState: 0
 --- !u!1 &956255640436955161
 GameObject:
@@ -2060,6 +2064,37 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8292669600046511213}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8091616643442168037
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4290345501292384079}
+  m_Layer: 6
+  m_Name: Death Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4290345501292384079
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8091616643442168037}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.26, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5355118483364795860}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8485655454325187457
 GameObject:

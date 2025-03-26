@@ -82,6 +82,8 @@ public class GameManager : MonoBehaviour
 
     public Transform GetPlayerTransform() => playerTransform;
 
+    public bool IsPaused => _isPaused;
+
     public void PauseState()
     {
         _isPaused = true;
