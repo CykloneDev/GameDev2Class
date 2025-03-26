@@ -82,7 +82,7 @@ public class PlayerWeaponController : MonoBehaviour
         }
     }
 
-    public void GetGunStats(WeaponStats gun)
+    public void GetWeaponStats(WeaponStats gun)
     {
         weaponList.Add(gun);
         _weaponIndex = weaponList.Count - 1;

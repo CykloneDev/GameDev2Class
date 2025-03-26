@@ -180,7 +180,7 @@ public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>, IDamage
             GameManager.instance.OnEnemyDefeated();
             if (_deathEffect != null)
                 Instantiate(_deathEffect, _deathPoint.position, _deathPoint.rotation);
-
+            GetComponent<CapsuleCollider>().enabled = false;
             return;
         }
         _context.SetDamage(true);

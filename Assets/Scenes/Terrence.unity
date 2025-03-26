@@ -127,17 +127,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3098212003815422022, guid: 865efc4ba822bd64ba7674f3f0c73aa2, type: 3}
-      propertyPath: m_Radius
-      value: 0.27
-      objectReference: {fileID: 0}
     - target: {fileID: 3629753456521417926, guid: 865efc4ba822bd64ba7674f3f0c73aa2, type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 3938021343834361170, guid: 865efc4ba822bd64ba7674f3f0c73aa2, type: 3}
-      propertyPath: weaponList.Array.size
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4404327711963689066, guid: 865efc4ba822bd64ba7674f3f0c73aa2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -811,6 +803,63 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 903392fd8de126f46af1400b7f8a539e, type: 3}
+--- !u!1001 &5651869897531083796
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2648618845931327662, guid: eaca6cd4a7c349b40bbc89f7da24295a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.327
+      objectReference: {fileID: 0}
+    - target: {fileID: 2648618845931327662, guid: eaca6cd4a7c349b40bbc89f7da24295a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.77
+      objectReference: {fileID: 0}
+    - target: {fileID: 2648618845931327662, guid: eaca6cd4a7c349b40bbc89f7da24295a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -5.2227983
+      objectReference: {fileID: 0}
+    - target: {fileID: 2648618845931327662, guid: eaca6cd4a7c349b40bbc89f7da24295a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2648618845931327662, guid: eaca6cd4a7c349b40bbc89f7da24295a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2648618845931327662, guid: eaca6cd4a7c349b40bbc89f7da24295a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2648618845931327662, guid: eaca6cd4a7c349b40bbc89f7da24295a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2648618845931327662, guid: eaca6cd4a7c349b40bbc89f7da24295a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2648618845931327662, guid: eaca6cd4a7c349b40bbc89f7da24295a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2648618845931327662, guid: eaca6cd4a7c349b40bbc89f7da24295a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7125150384130540023, guid: eaca6cd4a7c349b40bbc89f7da24295a, type: 3}
+      propertyPath: m_Name
+      value: Grenade Launcher Pickup
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: eaca6cd4a7c349b40bbc89f7da24295a, type: 3}
 --- !u!1001 &5930412227459690254
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -822,14 +871,6 @@ PrefabInstance:
     - target: {fileID: 330983013232897286, guid: 47b7328166cb34240bb468167faed4e8, type: 3}
       propertyPath: m_Name
       value: Spawner Station
-      objectReference: {fileID: 0}
-    - target: {fileID: 330983013232897286, guid: 47b7328166cb34240bb468167faed4e8, type: 3}
-      propertyPath: m_Layer
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 1473750526321837773, guid: 47b7328166cb34240bb468167faed4e8, type: 3}
-      propertyPath: m_IncludeLayers.m_Bits
-      value: 384
       objectReference: {fileID: 0}
     - target: {fileID: 4101753163927139465, guid: 47b7328166cb34240bb468167faed4e8, type: 3}
       propertyPath: m_LocalPosition.x
@@ -876,6 +917,63 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 47b7328166cb34240bb468167faed4e8, type: 3}
+--- !u!1001 &8980772972747694103
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 7603244586139041045, guid: 9f4a4d6d885eba6438142dbf24c04e71, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2.3036838
+      objectReference: {fileID: 0}
+    - target: {fileID: 7603244586139041045, guid: 9f4a4d6d885eba6438142dbf24c04e71, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.77
+      objectReference: {fileID: 0}
+    - target: {fileID: 7603244586139041045, guid: 9f4a4d6d885eba6438142dbf24c04e71, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -5.2227983
+      objectReference: {fileID: 0}
+    - target: {fileID: 7603244586139041045, guid: 9f4a4d6d885eba6438142dbf24c04e71, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7603244586139041045, guid: 9f4a4d6d885eba6438142dbf24c04e71, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7603244586139041045, guid: 9f4a4d6d885eba6438142dbf24c04e71, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7603244586139041045, guid: 9f4a4d6d885eba6438142dbf24c04e71, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7603244586139041045, guid: 9f4a4d6d885eba6438142dbf24c04e71, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7603244586139041045, guid: 9f4a4d6d885eba6438142dbf24c04e71, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7603244586139041045, guid: 9f4a4d6d885eba6438142dbf24c04e71, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8402238338645432836, guid: 9f4a4d6d885eba6438142dbf24c04e71, type: 3}
+      propertyPath: m_Name
+      value: Plasma Cannon Pickup
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9f4a4d6d885eba6438142dbf24c04e71, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -890,3 +988,5 @@ SceneRoots:
   - {fileID: 1612679828}
   - {fileID: 1573944489}
   - {fileID: 5930412227459690254}
+  - {fileID: 8980772972747694103}
+  - {fileID: 5651869897531083796}
