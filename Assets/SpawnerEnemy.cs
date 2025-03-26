@@ -30,61 +30,18 @@ public class SpawnerEnemy : MonoBehaviour, IDamage
 
     IEnumerator SpawnEffect()
     {
-        point = new Vector3(
-            Random.Range(-1f, 1f),
-            Random.Range(-1f, 1f),
-            Random.Range(-1f, 1f));
-        Instantiate(deathEffect, point, Quaternion.identity);
-        yield return new WaitForSeconds(0.25f);
-
-        point = new Vector3(
-            Random.Range(-1f, 1f),
-            Random.Range(-1f, 1f),
-            Random.Range(-1f, 1f));
-        Instantiate(deathEffect, point, Quaternion.identity);
-        yield return new WaitForSeconds(0.25f);
-
-        point = new Vector3(
-            Random.Range(-1f, 1f),
-            Random.Range(-1f, 1f),
-            Random.Range(-1f, 1f));
-        Instantiate(deathEffect, point, Quaternion.identity);
-        yield return new WaitForSeconds(0.25f);
-
-        point = new Vector3(
-            Random.Range(-1f, 1f),
-            Random.Range(-1f, 1f),
-            Random.Range(-1f, 1f));
-        Instantiate(deathEffect, point, Quaternion.identity);
-        yield return new WaitForSeconds(0.25f);
-
-        point = new Vector3(
-            Random.Range(-1f, 1f),
-            Random.Range(-1f, 1f),
-            Random.Range(-1f, 1f));
-        Instantiate(deathEffect, point, Quaternion.identity);
-        yield return new WaitForSeconds(0.25f);
-
-        point = new Vector3(
-            Random.Range(-1f, 1f),
-            Random.Range(-1f, 1f),
-            Random.Range(-1f, 1f));
-        Instantiate(deathEffect, point, Quaternion.identity);
-        yield return new WaitForSeconds(0.25f);
-
-        point = new Vector3(
-            Random.Range(-1f, 1f),
-            Random.Range(-1f, 1f),
-            Random.Range(-1f, 1f));
-        Instantiate(deathEffect, point, Quaternion.identity);
-        yield return new WaitForSeconds(0.25f);
-
-        point = new Vector3(
-            Random.Range(-1f, 1f),
-            Random.Range(-1f, 1f),
-            Random.Range(-1f, 1f));
-        Instantiate(deathEffect, point, Quaternion.identity);
-        yield return new WaitForSeconds(0.25f);
+        for(int i = 0;i < 9;i++)
+        {
+            var x = transform.position.x;
+            var y = transform.position.y;  
+            var z = transform.position.z;
+            point = new Vector3(
+            Random.Range(-0.5f, 0.5f) + x,
+            Random.Range(-0.5f, 0.5f) + y,
+            Random.Range(-0.5f, 0.5f) + z);
+            Instantiate(deathEffect, point, Quaternion.identity);
+            yield return new WaitForSeconds(0.25f);
+        }
     }
 
     // Update is called once per frame

@@ -63,7 +63,6 @@ public class RepositionState : EnemyBaseState
             position.y,
             Random.Range(-_repositionRadius, _repositionRadius) + position.z);
 
-        Debug.Log("Reposition position: " + result.ToString());
         NavMeshHit hit;
         while (!NavMesh.SamplePosition(result, out hit, 1f, LayerMask.NameToLayer("Navigation")))
         {
@@ -72,7 +71,6 @@ public class RepositionState : EnemyBaseState
                 Random.Range(-_repositionRadius, _repositionRadius) + position.x,
                 position.y,
                 Random.Range(-_repositionRadius, _repositionRadius) + position.z);
-            Debug.Log("New Reposition position: " + result.ToString());
         }
 
         return hit.position;

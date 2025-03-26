@@ -1938,7 +1938,7 @@ GameObject:
   m_Layer: 6
   m_Name: Enforcer v1.0
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 3306451490063965843, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -2076,10 +2076,10 @@ MonoBehaviour:
   _chaseStartRadius: 11
   _chaseRefreshTime: 0.25
   _focusIdleRotationSpeed: 180
-  _repositionRadius: 0
-  _coverSearchRange: 0
-  _minHideTime: 0
-  _maxHideTime: 0
+  _repositionRadius: 10
+  _coverSearchRange: 30
+  _minHideTime: 2
+  _maxHideTime: 8
   StatesUsed: 03000000040000000700000005000000
   _waypointsRange: 0
   _wanderRange: 20
@@ -2091,7 +2091,7 @@ MonoBehaviour:
   _shotSpeed: 30
   _shotCount: 3
   _shotDamageAmount: 1
-  _attackRotationSpeed: 0
+  _attackRotationSpeed: 50
   _meleeComboTime: 0
   _damageLayer: Enemy Bullet
   _meleeDamage: {fileID: 0}

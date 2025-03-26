@@ -189,7 +189,6 @@ public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>, IDamage
         }
         _context.SetDamage(true);
         _context.GetPlayerDetector().SeePlayer();
-        StartCoroutine(FlashRed());
     }
 
     public void HealDamage(int value)
@@ -213,19 +212,6 @@ public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>, IDamage
         StartCoroutine(HitboxRoutine());
     }
 
-    IEnumerator FlashRed()
-    {
-        foreach(Renderer rend in _model)
-        {
-            rend.material.color = Color.red;
-        }
-        yield return new WaitForSeconds(0.1f);
-        foreach (Renderer rend in _model)
-        {
-            rend.material.color = Color.white;
-        }
-        yield return null;
-    }
 
     IEnumerator FlashGreen()
     {

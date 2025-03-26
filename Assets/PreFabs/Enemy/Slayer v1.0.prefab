@@ -113,7 +113,7 @@ GameObject:
   m_Layer: 6
   m_Name: Slayer v1.0
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -258,15 +258,15 @@ MonoBehaviour:
   _currentHP: 0
   _maxHP: 10
   _dead: 0
-  _minRandomWait: 0
-  _maxRandomWait: 0
+  _minRandomWait: 2
+  _maxRandomWait: 5
   _walkSpeed: 5
   _runSpeed: 8
   _chaseStopRadius: 1
   _chaseStartRadius: 1
   _chaseRefreshTime: 0.2
-  _focusIdleRotationSpeed: 0
-  _repositionRadius: 0
+  _focusIdleRotationSpeed: 50
+  _repositionRadius: 10
   _coverSearchRange: 0
   _minHideTime: 0
   _maxHideTime: 0
@@ -276,7 +276,7 @@ MonoBehaviour:
   _bulletPrefab: {fileID: 0}
   _shotEffect: {fileID: 0}
   _shotPoint: {fileID: 0}
-  _attackRange: 1.25
+  _attackRange: 1.5
   _shotFrequency: 0
   _shotSpeed: 0
   _shotCount: 0
