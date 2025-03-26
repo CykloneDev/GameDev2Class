@@ -9,9 +9,7 @@ public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>, IDamage
 {
     public enum EnemyState
     {
-        [InspectorName(null)]
         RandomIdle,
-        [InspectorName(null)]
         FocusIdle,
         Waypoint,
         Wander,
@@ -20,9 +18,7 @@ public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>, IDamage
         Cover,
         Attack,
         Melee,
-        [InspectorName(null)]
         Damage,
-        [InspectorName(null)]
         Death
     }
 

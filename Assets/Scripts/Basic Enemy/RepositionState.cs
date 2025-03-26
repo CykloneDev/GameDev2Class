@@ -43,14 +43,20 @@ public class RepositionState : EnemyBaseState
 
     public override EnemyMachine.EnemyState GetNextState()
     {
-        var damage = _context.GetDamage();
         var dead = _context.GetDead();
+        var attack = _context.UseAttack();
+        var chase = _context.UseChase();
 
         if (dead) return EnemyMachine.EnemyState.Death;
 
-        if (damage) return EnemyMachine.EnemyState.Damage;
 
-        if (_arrived) return EnemyMachine.EnemyState.FocusIdle;
+        if (_arrived)
+        {
+            if (attack)
+                return EnemyMachine.EnemyState.Attack;
+            if (chase)
+                return EnemyMachine.EnemyState.Chase;
+        }
 
         return EnemyMachine.EnemyState.Reposition;
     }
