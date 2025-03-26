@@ -12,6 +12,11 @@ public class SpawnerEnemy : MonoBehaviour, IDamage
     Vector3 point;
     bool spawn;
 
+    void Start()
+    {
+        currentSpawnTime = spawnTime;
+    }
+
     public void HealDamage(int amount)
     {
         throw new System.NotImplementedException();

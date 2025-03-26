@@ -6206,7 +6206,7 @@ MonoBehaviour:
   _shootDistance: 150
   _damageLayer:
     serializedVersion: 2
-    m_Bits: 1097
+    m_Bits: 1089
   _gunModel: {fileID: 6710349169881187009}
   muzzle: {fileID: 153662632711651113}
   weaponList:
@@ -6231,7 +6231,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 3
   m_Height: 2
-  m_Radius: 0.5
+  m_Radius: 0.27
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
