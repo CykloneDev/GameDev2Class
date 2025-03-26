@@ -48,7 +48,7 @@ public class IdleState : EnemyBaseState
         var waypoints = _context.UseWaypoints();
         var playerDetected = _context.GetPlayerDetector().PlayerDetected();
         var chase = _context.UseChase();
-        var flee = _context.UseFlee();
+        var reposition = _context.UseReposition();
         var damage = _context.GetDamage();
         var dead = _context.GetDead();
 
@@ -62,7 +62,7 @@ public class IdleState : EnemyBaseState
         if(playerDetected)
         {
             if (chase) return EnemyMachine.EnemyState.Chase;
-            if (flee) return EnemyMachine.EnemyState.Flee;
+            if (reposition) return EnemyMachine.EnemyState.Reposition;
         }
 
         return EnemyMachine.EnemyState.RandomIdle;

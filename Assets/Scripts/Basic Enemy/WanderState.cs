@@ -47,7 +47,7 @@ public class WanderState : EnemyBaseState
         if (playerDetected)
         {
             if (_context.UseChase()) return EnemyMachine.EnemyState.Chase;
-            else if (_context.UseFlee()) return EnemyMachine.EnemyState.Flee;
+            else if (_context.UseReposition()) return EnemyMachine.EnemyState.Reposition;
         }
 
         if (_complete) return EnemyMachine.EnemyState.RandomIdle;

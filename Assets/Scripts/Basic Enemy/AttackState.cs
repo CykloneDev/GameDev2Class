@@ -74,7 +74,17 @@ public class AttackState : EnemyBaseState
 
     public override EnemyMachine.EnemyState GetNextState()
     {
-        if (!_shooting) return EnemyMachine.EnemyState.Cover;
+        var cover = _context.UseCover();
+        var reposition = _context.UseReposition();
+
+        if (!_shooting)
+        {
+            if (cover)
+                return EnemyMachine.EnemyState.Cover;
+
+            if(reposition)
+                return EnemyMachine.EnemyState.Reposition;
+        }
 
         return EnemyMachine.EnemyState.Attack;
     }
