@@ -41,10 +41,11 @@ public class WanderState : EnemyBaseState
     {
         var playerDetected = _context.GetPlayerDetector().PlayerDetected();
         var dead = _context.GetDead();
+        var damage = _context.GetDamage();
 
         if (dead) return EnemyMachine.EnemyState.Death;
 
-        if (playerDetected)
+        if (playerDetected || damage)
         {
             if (_context.UseChase()) return EnemyMachine.EnemyState.Chase;
             else if (_context.UseReposition()) return EnemyMachine.EnemyState.Reposition;
