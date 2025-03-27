@@ -11,11 +11,13 @@ public class SpawnerEnemy : MonoBehaviour, IDamage
     float currentSpawnTime;
     Vector3 point;
     bool spawn;
+    bool dead;
 
     void Start()
     {
         GameManager.instance.UpdateGameGoal(1);
         currentSpawnTime = spawnTime;
+        dead = false;
     }
 
     public void HealDamage(int amount)
@@ -25,12 +27,15 @@ public class SpawnerEnemy : MonoBehaviour, IDamage
 
     public void TakeDamage(int damage)
     {
+        if (dead) return;
+
         hp -= damage;
         if(hp <= 0)
         {
             spawn = false;
             StartCoroutine(SpawnEffect());
             GameManager.instance.UpdateGameGoal(-1);
+            dead = true;
             Destroy(gameObject, 8 * 0.26f);
         }
     }

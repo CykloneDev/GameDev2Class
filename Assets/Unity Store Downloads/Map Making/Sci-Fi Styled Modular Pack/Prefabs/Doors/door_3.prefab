@@ -127,7 +127,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 2.8, y: 0.53618485, z: 0.13789894}
   m_Center: {x: 0, y: -0.53190714, z: 0}
@@ -406,7 +406,6 @@ GameObject:
   - component: {fileID: 3332020}
   - component: {fileID: 2354706}
   - component: {fileID: 9567064}
-  - component: {fileID: 6592720}
   m_Layer: 0
   m_Name: door_3_bottom_A
   m_TagString: Untagged
@@ -505,27 +504,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!65 &6592720
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 164122}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 2.7999997, y: 1.1000005, z: 0.3840836}
-  m_Center: {x: -0.00000017881393, y: -1.3500004, z: 0}
 --- !u!1 &198422
 GameObject:
   m_ObjectHideFlags: 0
@@ -539,8 +517,6 @@ GameObject:
   - component: {fileID: 2326234}
   - component: {fileID: 9573410}
   - component: {fileID: 2919691298379994384}
-  - component: {fileID: 6473736}
-  - component: {fileID: 1186537854486141792}
   - component: {fileID: 6596262957402278060}
   m_Layer: 3
   m_Name: door_3
@@ -654,49 +630,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 9573410}
---- !u!64 &6473736
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 198422}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: e497b40124d368543a1971d44952f2d5, type: 3}
---- !u!65 &1186537854486141792
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 198422}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 15, y: 4.5, z: 10}
-  m_Center: {x: 0, y: 2, z: 0}
 --- !u!65 &6596262957402278060
 BoxCollider:
   m_ObjectHideFlags: 0
