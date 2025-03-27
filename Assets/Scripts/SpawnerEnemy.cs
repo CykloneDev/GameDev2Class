@@ -43,9 +43,9 @@ public class SpawnerEnemy : MonoBehaviour, IDamage
             var y = transform.position.y;  
             var z = transform.position.z;
             point = new Vector3(
-            Random.Range(-0.5f, 0.5f) + x,
-            Random.Range(-0.5f, 0.5f) + y,
-            Random.Range(-0.5f, 0.5f) + z);
+            Random.Range(-1.5f, 1.5f) + x,
+            Random.Range(0f, 1.5f) + y,
+            Random.Range(-1.5f, 1.5f) + z);
             Instantiate(deathEffect, point, Quaternion.identity);
             yield return new WaitForSeconds(0.25f);
         }

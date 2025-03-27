@@ -105,8 +105,6 @@ public class GameManager : MonoBehaviour
         hideReticle();
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.Confined;
-        
-
     }
 
     public void UnpauseState()
@@ -119,9 +117,6 @@ public class GameManager : MonoBehaviour
         Cursor.visible = false;
         activeMenu.SetActive(false);
         activeMenu = null;
-       
-
-
     }
 
     public void Lose()

@@ -16,7 +16,7 @@ MonoBehaviour:
   damage: 1
   shotEnergy: 0
   shotDistance: 100
-  shotRate: 0.25
+  shotRate: 0.15
   shotSpeed: 0
   bulletPrefab: {fileID: 0}
   hitPrefab: {fileID: 19874822, guid: 577af436092783e448b60646ae9c1da6, type: 3}

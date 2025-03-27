@@ -57,8 +57,6 @@ public class ChaseState : EnemyBaseState
     {
         var damage = _context.GetDamage();
 
-        if (damage) return EnemyMachine.EnemyState.Damage;
-
         if (_inRange) return EnemyMachine.EnemyState.FocusIdle;
 
         return EnemyMachine.EnemyState.Chase;
