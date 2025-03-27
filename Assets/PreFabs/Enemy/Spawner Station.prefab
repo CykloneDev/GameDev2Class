@@ -53,11 +53,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bed8af2a5762e94b8219c77198939b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 30
+  hp: 20
   deathEffect: {fileID: 4873982171288041925, guid: ceaf4aab86caf6c45bd6d1e66ed0e4e9, type: 3}
   enemyToSpawn: {fileID: 7026909828492171306, guid: 1ea3be99b2c580e4bb51b21a6fc0ed74, type: 3}
   spawnPoint: {fileID: 3986935408338325638}
-  spawnTime: 8
+  spawnTime: 7
 --- !u!135 &6637794591417948789
 SphereCollider:
   m_ObjectHideFlags: 0

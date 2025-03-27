@@ -79,7 +79,6 @@ public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>, IDamage
 
         _currentHP = _maxHP;
         _dead = false;
-        GameManager.instance.UpdateGameGoal(1);
     }
 
     public override void Update()
@@ -175,6 +174,7 @@ public class EnemyMachine : StateMachine<EnemyMachine.EnemyState>, IDamage
             GameManager.instance.OnEnemyDefeated();
             if (_deathEffect != null)
                 Instantiate(_deathEffect, _deathPoint.position, _deathPoint.rotation);
+
             gameObject.layer = LayerMask.NameToLayer("Dead");
             Destroy(gameObject, 3f);
             return;
