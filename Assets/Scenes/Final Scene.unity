@@ -1543,7 +1543,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2231071360389379654, guid: 8563a84c4d936b64791cfe474421cab0, type: 3}
       propertyPath: field of view
-      value: 75
+      value: 72
       objectReference: {fileID: 0}
     - target: {fileID: 2231071360389379654, guid: 8563a84c4d936b64791cfe474421cab0, type: 3}
       propertyPath: m_projectionMatrixMode
