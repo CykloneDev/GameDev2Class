@@ -7,20 +7,15 @@ public class MiniMap : MonoBehaviour
 
     Vector3 position;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
-        Camera();
+        miniMap();
     }
 
-    void Camera()
+    void miniMap()
     {
         position = player.position;
+        position.y = transform.position.y;
+        transform.position = position;
     }
 }
