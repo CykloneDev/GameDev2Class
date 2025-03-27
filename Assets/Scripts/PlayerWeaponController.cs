@@ -19,7 +19,6 @@ public class PlayerWeaponController : MonoBehaviour
     [SerializeField] List<WeaponStats> weaponList = new List<WeaponStats>();
     [SerializeField] int _weaponIndex;
     [SerializeField] int _maxWeaponEnergy;
-    [SerializeField] float _rechargeRate;
     float _currentWeaponEnergy;
 
     private void Start()
@@ -50,7 +49,7 @@ public class PlayerWeaponController : MonoBehaviour
 
         if (_currentWeaponEnergy < _maxWeaponEnergy)
         {
-            _currentWeaponEnergy += Time.deltaTime * (_maxWeaponEnergy * _rechargeRate);
+            _currentWeaponEnergy += Time.deltaTime * (_maxWeaponEnergy * .02f);
             UpdatePlayerUI();
 
             if (_currentWeaponEnergy > _maxWeaponEnergy)
