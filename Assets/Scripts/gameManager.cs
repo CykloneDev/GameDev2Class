@@ -42,6 +42,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] int maxHPIncrease;
     [SerializeField] int gravityIncrease;
 
+    public List<GameObject> activateList;
+
     private void Awake()
     {
         if (instance == null) instance = this;
@@ -67,6 +69,9 @@ public class GameManager : MonoBehaviour
         {
             coverList.Add(cover);
         }
+
+        foreach (var o in activateList)
+            o.SetActive(true);
     }
 
     private void Update()

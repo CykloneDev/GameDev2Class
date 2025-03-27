@@ -14,6 +14,7 @@ public class SpawnerEnemy : MonoBehaviour, IDamage
 
     void Start()
     {
+        GameManager.instance.UpdateGameGoal(1);
         currentSpawnTime = spawnTime;
     }
 
@@ -29,6 +30,7 @@ public class SpawnerEnemy : MonoBehaviour, IDamage
         {
             spawn = false;
             StartCoroutine(SpawnEffect());
+            GameManager.instance.UpdateGameGoal(-1);
             Destroy(gameObject, 8 * 0.26f);
         }
     }
