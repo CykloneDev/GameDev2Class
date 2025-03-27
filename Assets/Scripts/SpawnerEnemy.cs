@@ -59,18 +59,22 @@ public class SpawnerEnemy : MonoBehaviour, IDamage
     // Update is called once per frame
     void Update()
     {
-        if(spawn)
+        var current = GameManager.instance.currentEnemies;
+        var maxEnemies = GameManager.instance.MaxEnemyAmount();
+        if (spawn)
         {
             currentSpawnTime += Time.deltaTime;
-            if(currentSpawnTime >= spawnTime)
+            if(currentSpawnTime >= spawnTime 
+                && current < maxEnemies)
             {
                 Instantiate(enemyToSpawn, spawnPoint.position, spawnPoint.rotation);
+                GameManager.instance.currentEnemies++;
                 currentSpawnTime = 0;
             }
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Player"))
             spawn = true;

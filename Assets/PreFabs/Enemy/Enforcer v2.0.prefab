@@ -2076,11 +2076,11 @@ MonoBehaviour:
   _chaseStartRadius: 15
   _chaseRefreshTime: 0.25
   _focusIdleRotationSpeed: 360
-  _repositionRadius: 30
+  _repositionRadius: 5
   _coverSearchRange: 40
   _minHideTime: 3
   _maxHideTime: 7
-  StatesUsed: 030000000400000007000000
+  StatesUsed: 03000000040000000700000005000000
   _waypointsRange: 0
   _wanderRange: 30
   _bulletPrefab: {fileID: 2385919531371957180, guid: 951b93cda898dbf409bfbbaac8f8211a, type: 3}

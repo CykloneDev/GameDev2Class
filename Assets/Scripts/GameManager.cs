@@ -23,6 +23,8 @@ public class GameManager : MonoBehaviour
     public GameObject playerDamageScreen;
     public GameObject playerHealScreen;
     public GameObject playerReticle;
+    [SerializeField] private int enemyMax;
+    public int currentEnemies;
    
 
     public Image playerHPBar;
@@ -165,10 +167,12 @@ public class GameManager : MonoBehaviour
 
     public void OnEnemyDefeated()
     {
-        ++enemiesDefeated;
+        currentEnemies--;
     }
 
     public int EnemiesDefeated() => enemiesDefeated;
+
+    public int MaxEnemyAmount() => enemyMax;
 
     public void ResetDefeatedCount() { enemiesDefeated = 0; }
 
