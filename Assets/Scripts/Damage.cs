@@ -33,6 +33,8 @@ public class Damage : MonoBehaviour
         dmg.TakeDamage(_amount);
 
         if (_type != DamageType.Moving) return;
+
+        Debug.Log("HIT: " + other.name);
         Destroy(gameObject);
     }
 
